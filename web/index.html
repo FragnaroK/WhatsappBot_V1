@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <title>WhatsApp Bot by FragnaroK</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navBar">
+        <ul class="navBar__list">
+          <li class="list__item">HOME</li>
+          <li class="list__item">Random</li>
+          <li class="list__item">Scheduled</li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="content">
+        <section class="data">
+          <label for="Browser">Browser</label>
+          <input
+            type="text"
+            class="browser"
+            placeholder="Chrome, Edge or Firefox"
+            id="Browser"
+          />
+          <label for="Phone">Phone</label>
+          <input
+            type="text"
+            class="phone"
+            placeholder="E.g, +64468487982"
+            id="Phone"
+          />
+        </section>
+        <section class="modes">
+          <div class="modes__random">
+            <span class="modes__random--status">OFF</span>
+            <button class="modes__random--activate">Random Mode</button>
+          </div>
+          <div class="modes__scheduled">
+            <span class="modes__scheduled--status">OFF</span>
+            <button class="modes__scheduled--activate">Scheduled Mode</button>
+          </div>
+        </section>
+        <button class="start">Start Bot</button>
+      </section>
+    </main>
+    <script src="./scripts/index.js"></script>
+    <script src="./scripts/templates.js"></script>
+  </body>
+</html>

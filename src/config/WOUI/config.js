@@ -165,7 +165,7 @@ function startBot() {
     console.log("\nSelecting Message... \n\n");
     selectPhrase();
     checkcache();
-    console.log("\tChosen phrase: " + phrases[10]);
+    console.log("\tChosen phrase: " + phrases[chosenPhrase]);
     console.log("\tWriting...");
     writeAndSendMsg(phrases[chosenPhrase]);
     console.log("\n\n Sent!");
