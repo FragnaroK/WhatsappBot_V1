@@ -1,3 +1,0 @@
-@ECHO OFF
-ECHO Instalando dependencias...
-pip install -r requirements.txt && ECHO Dependencias instaladas

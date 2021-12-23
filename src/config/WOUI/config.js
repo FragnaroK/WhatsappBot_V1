@@ -1,6 +1,25 @@
 //  Message input code: _2lMWa
 console.log("Runing Program");
 
+/*
+
+██╗    ██╗██╗  ██╗ █████╗ ████████╗███████╗ █████╗ ██████╗ ██████╗     ██████╗  ██████╗ ████████╗
+██║    ██║██║  ██║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗    ██╔══██╗██╔═══██╗╚══██╔══╝
+██║ █╗ ██║███████║███████║   ██║   ███████╗███████║██████╔╝██████╔╝    ██████╔╝██║   ██║   ██║   
+██║███╗██║██╔══██║██╔══██║   ██║   ╚════██║██╔══██║██╔═══╝ ██╔═══╝     ██╔══██╗██║   ██║   ██║   
+╚███╔███╔╝██║  ██║██║  ██║   ██║   ███████║██║  ██║██║     ██║         ██████╔╝╚██████╔╝   ██║   
+ ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝         ╚═════╝  ╚═════╝    ╚═╝   
+                                                                                                
+                   _   _     _   _   _   _   _   _   _   _   _  
+                  / \ / \   / \ / \ / \ / \ / \ / \ / \ / \ / \ 
+                 ( B | y ) ( F | r | a | g | n | a | r | o | K )
+                  \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/ \_/                                                                                      
+
+Github:      https://github.com/FragnaroK
+Website:     https://fcanalejo.web.app
+
+*/
+
 // LIST OF EMOJIS ON "emojis.txt"
 
 // MODES: Can be activated together
@@ -17,7 +36,7 @@ const phrases = ["Some Random Phrase", "Another Random Phrase"];
 const schePhrases = [
   {
     phrase: "Some Scheduled Phrase", // Well, the phrase
-    time: 12, // Here you should put the specific hour that you want to send it from 0 to 23
+    time: 12, // Here you should put the specific hour that you want to send it (from 0 to 23)
   },
   {
     phrase: "Another Scheduled Phrase",
