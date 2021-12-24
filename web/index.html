@@ -11,44 +11,34 @@
     <header>
       <nav class="navBar">
         <ul class="navBar__list">
-          <li class="list__item">HOME</li>
-          <li class="list__item">Random</li>
-          <li class="list__item">Scheduled</li>
+          <li class="list__item" onclick="routes('home')">HOME</li>
+          <li class="list__item" onclick="routes('random')">Random</li>
+          <li class="list__item" onclick="routes('scheduled')">Scheduled</li>
         </ul>
       </nav>
     </header>
     <main>
-      <section class="content">
-        <section class="data">
-          <label for="Browser">Browser</label>
-          <input
-            type="text"
-            class="browser"
-            placeholder="Chrome, Edge or Firefox"
-            id="Browser"
-          />
-          <label for="Phone">Phone</label>
-          <input
-            type="text"
-            class="phone"
-            placeholder="E.g, +64468487982"
-            id="Phone"
-          />
+      <section id="content">
+        <!-- <section id="random">
+          <section class="showPhrases">
+            <ul class="phrases__list">
+              <li class="list__phrase">phrase</li>
+            </ul>
+          </section>
+          <section class="addPhrases">
+            <div class="form">
+            <div class="inputs"> 
+            <input type="text" placeholder="Write message here" class="addrandomPhrase"/>
+            </div>
+            <button class="btn add" onclick="addInput("random")">+</button>
+            </div>
+            </section>
+            <button class="btn apply" onclick="addPhrases()">Add Phrases</button> -->
         </section>
-        <section class="modes">
-          <div class="modes__random">
-            <span class="modes__random--status">OFF</span>
-            <button class="modes__random--activate">Random Mode</button>
-          </div>
-          <div class="modes__scheduled">
-            <span class="modes__scheduled--status">OFF</span>
-            <button class="modes__scheduled--activate">Scheduled Mode</button>
-          </div>
-        </section>
-        <button class="start">Start Bot</button>
       </section>
     </main>
-    <script src="./scripts/index.js"></script>
     <script src="./scripts/templates.js"></script>
+    <script src="./scripts/index.js"></script>
+    <script src="./scripts/routing.js"></script>
   </body>
 </html>

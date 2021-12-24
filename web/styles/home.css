@@ -1,0 +1,72 @@
+#home {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.data {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: auto;
+}
+
+.modes {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+}
+
+.toggleBtn {
+  padding: 0 5px;
+  width: 100%;
+  height: 50px;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    to bottom,
+    crimson 49%,
+    var(--wp-green) 50%
+  );
+  background-size: 100% 300%;
+  background-position: 0 0;
+  box-shadow: 0px 4px 1px 1px green;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+
+.toggleBtn:active {
+  box-shadow: 0px 0px 1px 1px var(--wp-green);
+  transition: 0.2s ease-in-out;
+}
+
+.btnOn {
+  color: white;
+  background-position: 0 -70px;
+  transition: 0.5s ease-in-out;
+}
+
+.start {
+  margin: 10% 0 0 0;
+  width: 100%;
+  height: 70px;
+  border: 1px solid var(--wp-green);
+  border-radius: 5px;
+  background-color: transparent;
+  cursor: pointer;
+}
+.start:hover {
+  font-size: 23px;
+  color: var(--color-2);
+  background-color: var(--wp-green);
+}
