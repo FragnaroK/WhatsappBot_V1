@@ -6,3 +6,4 @@ config/botConfig.json
 config/userConfig.json
 *.spec
 *.pyc
+*.code-workspace
