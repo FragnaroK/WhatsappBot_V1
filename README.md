@@ -1,3 +1,5 @@
+> Updated README.md coming soon 
+
 # WhatsApp Bot
 
 #### News
