@@ -10,6 +10,7 @@ const home = () => `
                 class="browser"
                 placeholder="Chrome, Edge or Firefox"
                 id="Browser"
+                value="${pyConfig.browser}"
                 onkeyup="writing(this)"
               />
             </div>
@@ -20,6 +21,7 @@ const home = () => `
                 class="phone"
                 placeholder="E.g, +64468487982"
                 id="Phone"
+                value="${pyConfig.phone}"
                 onkeyup="writing(this)"
               />
             </div>
@@ -28,17 +30,18 @@ const home = () => `
             <div class="modes__random">
               <button
                 class="modes__random--toggle toggleBtn ${
-                  modes.scheduled ? "btnOn" : ""
+                  jsConfig.modes.scheduled ? "btnOn" : ""
                 }"
                 onclick="modeToggle('random')"
               >
                 Random Mode
               </button>
             </div>
+            <input type="number" placeholder="Time between messages (Min)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every / 60000}">
             <div class="modes__scheduled">
               <button
                 class="modes__scheduled--toggle toggleBtn ${
-                  modes.scheduled ? "btnOn" : ""
+                  jsConfig.modes.scheduled ? "btnOn" : ""
                 }"
                 onclick="modeToggle('scheduled')"
               >
@@ -46,39 +49,46 @@ const home = () => `
               </button>
             </div>
           </section>
+          <button class="start" onclick="saveBot()">Save</button>
           <button class="start" onclick="startBot()">Start Bot</button>
         </section>
 `;
 
-const random = () => `
-<section id="random">
-          <section class="showPhrases">
-            <ul class="phrases__list">
-              <li class="list__phrase">phrase</li>
-            </ul>
-          </section>
+const scheme = (type) =>
+  `<section id="${type == "random" ? "random" : "scheduled"}">
           <section class="addPhrases">
+          <button class="btn add" onclick="addInput('${
+            type == "random" ? "random" : "scheduled"
+          }','')">+</button>
             <div class="form">
-            <input type="text" placeholder="Write message here" class="addrandomPhrase" id="r0" onkeyup=""/>
-            <button class="btn add" onclick="delInput('r0', this)">X</button>
             </div>
-            <button class="btn add" onclick="addInput('random','')">+</button>
             </section>
-            <button class="btn apply" onclick="addPhrases()">Add Phrases</button>
-        </section>
-`;
+            <button class="btn apply" onclick="addPhrases('${
+              type == "random" ? "random" : "scheduled"
+            }')">Apply</button>
+        </section>`;
 
-const scheduled = () => `
-<h1>Scheduled works</h1>
-`;
-
-const loadRandom = () => {
-  randomPhrases.forEach((phrase) => {
-    document.querySelector(".phrases__list").innerHTML += randomPhraseItem(
+const loadRandom = (reload, p = randomPhrases) => {
+  if (reload) randomPhrases = [...newRandomPhrases];
+  newRandomPhrases = [];
+  p.forEach((phrase) => {
+    document.querySelector(".form").innerHTML += phraseInput(
+      "random",
       phrase,
-      randomPhrases.indexOf(phrase)
+      p.indexOf(phrase)
     );
-    addInput("random", phrase);
+  });
+};
+
+const loadScheduled = (reload, p = scheduledPhrases) => {
+  if (reload) scheduledPhrases = [...newScheduledPhrases];
+  newScheduledPhrases = [];
+  p.forEach((phrase) => {
+    document.querySelector(".form").innerHTML += phraseInput(
+      "scheduled",
+      phrase,
+      p.indexOf(phrase)
+    );
   });
 };
 // ELEMENTS
@@ -87,13 +97,20 @@ const randomPhraseItem = (phrase, index) => `
 <li class="list__phrase p${index}" onclick="deletePhrase(this)">${phrase}</li>
 `;
 
-const phraseInput = (type, value, index) => `
-<input type="text" placeholder="Write message here" class="add${type.toLowerCase()}Phrase" id="${
-  type.toLowerCase() == "random" ? "r" + index : "s" + index
-}" value="${value}" onkeyup="phraseWriting('${
-  type.toLowerCase() == "random" ? "r" : "s"
-}', this, ${index})"/>
-<button class="btn add" onclick="delInput('${
-  type.toLowerCase() == "random" ? "r" + index : "s" + index
-}', this)">X</button>
-`;
+const phraseInput = (type, value, index) => {
+  if (type == "random") {
+    return `
+    <div class="input r">
+    <input type="text" placeholder="Write message here" class="addRandomPhrase inputPhrase r${index}" value="${value}" onkeyup="phraseWriting('random', this, ${index})"/>
+    <button class="btn add" onclick="delInput('r', this, ${index})">X</button>
+    </div>
+    `;
+  }
+  if (type == "scheduled") {
+    return `<div class="input s">
+    <input type="text" placeholder="Write a message here" class="inputPhrase s${index}" value="${value.phrase}" onkeyup="phraseWriting('scheduled', this, ${index})">
+    <input type="number" placeholder="time" value="${value.time}" class="inputTime s${index}">
+    <button class="btn add" onclick="delInput('s', this, ${index})">X</button>
+  </div>`;
+  }
+};

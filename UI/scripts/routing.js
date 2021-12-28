@@ -1,5 +1,6 @@
 window.onload = () => {
-  routes("random");
+  checkLocalData()
+  routes("home");
 };
 
 function routes(route) {
@@ -8,11 +9,12 @@ function routes(route) {
       content.innerHTML = home();
       break;
     case "random":
-      content.innerHTML = random();
-      loadRandom();
+      content.innerHTML = scheme("random");
+      loadRandom(false);
       break;
     case "scheduled":
-      content.innerHTML = scheduled();
+      content.innerHTML = scheme("scheduled");
+      loadScheduled(false);
       break;
     default:
       break;
