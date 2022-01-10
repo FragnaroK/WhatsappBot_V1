@@ -6,3 +6,4 @@ IF EXIST main.exe (DEL main.exe);
 IF EXIST dist\main.exe (COPY dist\main.exe . ) ELSE (ECHO [!] Error, no se encontro archivo compilado)
 ECHO . . . . . . . . . . . . .
 IF EXIST main.exe (ECHO [+] Building succesful and executable copied to main folder)
+@PAUSE

@@ -1,3 +1,57 @@
+//  Message input code: _2lMWa
+console.log("Runing Program");
+
+// LIST OF EMOJIS ON "emojis.txt"
+
+// MODES: Can be activated together
+const onlyScheduled = false;
+const onlyRandom = false;
+const autoMode = false;
+
+// TIME: An hour or less on Scheduled Mode
+const everyS = 3600000; // How much it should wait between messages (in miliseconds)
+
+// Here you add the phrases that you want to send. ** Do not forget the "cuotes" and ,commas, **
+const phrases = ["Some Random Phrase", "Another Random Phrase"];
+
+const schePhrases = [
+  {
+    phrase: "Some Scheduled Phrase", // Well, the phrase
+    time: 12, // Here you should put the specific hour that you want to send it from 0 to 23
+  },
+  {
+    phrase: "Another Scheduled Phrase",
+    time: 22,
+  },
+  {
+    phrase: "An extra phrase as example of scheTime",
+    time: 12,
+  },
+];
+
+// Just mention the hours that you would like to schedule the messages (One per hour)
+const scheTime = [12, 22]; // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
+
+
+const chats = [
+  {
+    ask: "question",
+    answers: [
+      "question answer 1",
+      "question answer 2",
+      "question answer 3",
+    ],
+  },
+];
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ***** BOT CODE - DO NOT MODIFY ANYTHING UNLESS YOU KNOW WHAT YOU'RE DOING!!! ***** ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+/* SCHEDULED AND RANDOM MESSAGES CONFIGURATION */
+
 var list_container;
 var lastMsg;
 var cache = []; // To avoid repeated phrases.
@@ -176,7 +230,7 @@ function startAI() {
 function getLastMsg(output) {
   let e = output.target;
   if (e == list_container.lastElementChild) {
-    if (e.classList.toString().includes("message-out focusable-list-item")) {
+    if (e.classList.toString().includes("message-in focusable-list-item")) {
       lastMsg = e.innerText.slice(0, e.innerText.lastIndexOf("\n"));
       answerMsg(lastMsg);
     }
@@ -189,7 +243,7 @@ var lastMsgSent = undefined;
 function answerMsg(message) {
   let msg = message.toString().toLowerCase();
   let exist = false;
-  if (msg.slice(0, 5).includes(keyWord)) {
+  if (msg.includes("hey, ")) {
     chats.forEach((chat, i) => {
       if (msg.includes(chat.ask.toLowerCase())) {
         setTimeout(() => {
@@ -199,7 +253,7 @@ function answerMsg(message) {
             count: 0
           };
           if (lastMsgSent != undefined) {
-            while (answer == lastMsgSent && flag.value) {
+            while (answer == lastMsgSent && flag) {
               answer = randInt(0, chat.answers.length);
               flag.count++;
               if (flag.count == 100) flag.value = false;
@@ -212,7 +266,7 @@ function answerMsg(message) {
       } 
     });
   }
-  if (!exist && msg.slice(0, 5).includes(keyWord)) {
+  if (!exist) {
     setTimeout(() => {
       writeAndSendMsg("Sorry, try another question :(");
     }, 3000);

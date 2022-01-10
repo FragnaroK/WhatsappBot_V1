@@ -17,14 +17,12 @@
 # Website:        https://fcanalejo.web.app
 
 import json
-from pathlib import Path
 import sys
 from types import SimpleNamespace
 from selenium import webdriver
 from os import getlogin, path
 
-from App.models.userconfig import jsConfig, pyConfig
-
+from UI import pyConfig, jsConfig
 
 # Change the name of the browser that you want to run this bot
 # Available browsers:
@@ -37,13 +35,34 @@ if getattr(sys, 'frozen', False):
     application_path = path.dirname(sys.executable)
 # or a script file (e.g. `.py` / `.pyw`)
 elif __file__:
-    application_path = Path(path.dirname(__file__)).parent.absolute()
+    application_path = path.dirname(__file__)
     
 
-selectedBrowser = "Edge"
+class pythonConfig:
+    def __init__(self, browser, phone ):
+        self.browser = browser
+        self.phone = phone
+        
+class jsConfig:
+    def __init__(self, modes, randomPhrases, scheduledPhrases, autoMessages, every, times):
+        self.modes = [modes.random, modes.scheduled, modes.auto]
+        self.randomPhrases = randomPhrases
+        self.scheduledPhrases = scheduledPhrases
+        self.autoMessages = autoMessages
+        self.every = every
+        self.times = times
+
+
+# disable/enable UI
+
+UIenable = True
+
+# pythonConfig: config
+
+selectedBrowser = "Chrome"
 
 # Here you can add the target, do not forget the area code +00
-manualPhone = "+0000000000"
+manualPhone = "+61404558115"
 
 # Url of whatsapp, do not change ir unless it is necesary
 manualURL = "https://web.whatsapp.com/send?phone={}".format(manualPhone)
@@ -60,7 +79,7 @@ def getJsConfig():
                 "r", encoding="utf8") as f:
         setJsConfigFile = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     global setJsConfig
-    setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.keyWord, setJsConfigFile.every, setJsConfigFile.times) 
+    setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.every, setJsConfigFile.times) 
     f.close()
     
 def getPytConfig():
@@ -79,24 +98,18 @@ def clearBotConfig():
 
 
 def setupConfig(Config):
-    try:
-        from css_html_js_minify import process_single_js_file
-        print("Starting JS Compressor!\n")
-    except ModuleNotFoundError or ImportError as err:
-        print("[!] ERROR: JavaScript Minify Module Not Found!")
-        print(err)
-    process_single_js_file(r"{}\config\WUI\config-noVars.js".format(dir_path),overwrite=False, output_path=r"{}\config\WUI\min-config.js".format(dir_path))
-    print("Minify Completed!\n\n")
+    print(Config.scheduledPhrases)
     schePhra = str(Config.scheduledPhrases).replace("namespace(" , "{")
     schePhra = schePhra.replace(")", "}")
     autoMsg = str(Config.autoMessages).replace("namespace(" , "{")
     autoMsg = autoMsg.replace(")", "}")
+    print(schePhra.replace("=", ":"))
     clearBotConfig()
     # Bot logic
-    config = open(r"{}\config\WUI\min-config.js".format(dir_path),
+    config = open(r"{}\config\min-config.js".format(dir_path),
                   "r", encoding="utf8")
 
-    # Only change it if the name of the javascript file change, or path
+    # Only change it if the name of the javascript file change, or address
     bot = open(r"{}\bot.js".format(dir_path),
                "a+", encoding="utf8")
     bot.write("const onlyScheduled={};".format(str(Config.modes[1]).casefold()))
@@ -107,7 +120,6 @@ def setupConfig(Config):
     bot.write("const phrases={};".format(Config.randomPhrases))
     bot.write("const schePhrases={};".format(schePhra.replace("=", ":")))
     bot.write("const chats={};".format(autoMsg.replace("=", ":")))
-    bot.write('const keyWord="{}";'.format(Config.keyWord))
     
     for line in config:
         bot.write(line)
@@ -121,7 +133,7 @@ def startBotOn(browser):
     if browser == ("Chrome" or "chrome"):
         try:
             from selenium.webdriver.chrome.options import Options
-            print("Chrome Module Found!")
+            print("Chrome Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Chrome Not Found")
             print(err)
@@ -136,7 +148,7 @@ def startBotOn(browser):
     if browser == ("Edge" or "edge"):
         try:
             from selenium.webdriver.edge.options import Options
-            print("Edge Module Found!")
+            print("Edge Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR:  Selenium WebDriver Edge Not Found")
             print(err)
@@ -151,7 +163,7 @@ def startBotOn(browser):
     if browser == ("Firefox" or "firefox"):
         try:
             from selenium.webdriver.firefox.options import Options
-            print("Firefox Module Found!")
+            print("Firefox Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Firefox Not Found")
             print(err)
@@ -163,8 +175,8 @@ def startBotOn(browser):
         driver = webdriver.Firefox(
             executable_path='{}\\drivers\\geckodriver.exe'.format(dir_path), options=options)
 
-def startBot(UI = True):
-    if (UI):
+def startBot():
+    if (UIenable):
         getJsConfig()
         getPytConfig()
         setupConfig(setJsConfig)
@@ -176,7 +188,7 @@ def startBot(UI = True):
         driver.execute_script(bot.read())
     else:
         startBotOn(selectedBrowser)
-        bot = open(r"{}\config\WOUI\config.js".format(dir_path),
+        bot = open(r"{}\config\config.js".format(dir_path),
                 "r", encoding="utf8")
         driver.get(manualURL)
         driver.execute_script(bot.read())

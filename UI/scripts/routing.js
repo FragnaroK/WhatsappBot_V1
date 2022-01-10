@@ -1,6 +1,6 @@
 window.onload = () => {
-  checkLocalData()
   routes("home");
+  
 };
 
 function routes(route) {
@@ -16,7 +16,12 @@ function routes(route) {
       content.innerHTML = scheme("scheduled");
       loadScheduled(false);
       break;
+    case "auto":
+    content.innerHTML = auto();
+    loadAuto(false);
+    break;
     default:
+      routes("home");
       break;
   }
 }
