@@ -32,7 +32,7 @@ const schePhrases = [
 // Just mention the hours that you would like to schedule the messages (One per hour)
 const scheTime = [12, 22]; // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...
 
-
+const keyWord = "hey, "
 const chats = [
   {
     ask: "question",
@@ -230,7 +230,7 @@ function startAI() {
 function getLastMsg(output) {
   let e = output.target;
   if (e == list_container.lastElementChild) {
-    if (e.classList.toString().includes("message-in focusable-list-item")) {
+    if (e.classList.toString().includes("message-out focusable-list-item")) {
       lastMsg = e.innerText.slice(0, e.innerText.lastIndexOf("\n"));
       answerMsg(lastMsg);
     }
@@ -243,7 +243,7 @@ var lastMsgSent = undefined;
 function answerMsg(message) {
   let msg = message.toString().toLowerCase();
   let exist = false;
-  if (msg.includes("hey, ")) {
+  if (msg.slice(0, 5).includes(keyWord)) {
     chats.forEach((chat, i) => {
       if (msg.includes(chat.ask.toLowerCase())) {
         setTimeout(() => {
@@ -253,7 +253,7 @@ function answerMsg(message) {
             count: 0
           };
           if (lastMsgSent != undefined) {
-            while (answer == lastMsgSent && flag) {
+            while (answer == lastMsgSent && flag.value) {
               answer = randInt(0, chat.answers.length);
               flag.count++;
               if (flag.count == 100) flag.value = false;
@@ -266,7 +266,7 @@ function answerMsg(message) {
       } 
     });
   }
-  if (!exist) {
+  if (!exist && msg.slice(0, 5).includes(keyWord)) {
     setTimeout(() => {
       writeAndSendMsg("Sorry, try another question :(");
     }, 3000);

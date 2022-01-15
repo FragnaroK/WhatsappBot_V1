@@ -15,6 +15,7 @@ var jsConfig = {
   randomPhrases: [],
   scheduledPhrases: [],
   autoMessages: [],
+  keyWord: "",
   times: [],
   every: 36000,
 };
@@ -35,6 +36,7 @@ function asignarJsConfig(obj) {
   jsConfig.randomPhrases = [...obj.randomPhrases];
   jsConfig.scheduledPhrases = [...obj.scheduledPhrases];
   jsConfig.autoMessages = [...obj.autoMessages];
+  jsConfig.keyWord = obj.keyWord;
   jsConfig.times = [...obj.time];
   jsConfig.every = obj.every;
 }
@@ -113,6 +115,7 @@ function writing(e) {
   if (e.id == "Browser") pyConfig.browser = e.value;
   if (e.id == "Phone") pyConfig.phone = e.value;
   if (e.id == "Every") jsConfig.every = Number(e.value) * 60000;
+  if (e.id == "autoKeyWord") jsConfig.keyWord = e.value.toLowerCase();
 }
 
 function saveBot() {
@@ -191,11 +194,6 @@ function addInput(type, value, where = ".form") {
   }
 }
 
-// function refreshInput(type) {
-//   for (let i = 0; i < randomPhrases.length; i++) {
-//     document.querySelector(".inputPhrase")[i].textContent = randomPhrases[i];
-//   }
-// }
 function delInput(input, button, index) {
   document.querySelectorAll("." + input + index).forEach((e) => e.remove());
   button.remove();

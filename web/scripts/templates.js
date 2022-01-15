@@ -27,6 +27,7 @@ const home = () => `
             </div>
           </section>
           <section class="modes">
+         
             <div class="modes__random">
               <button
                 class="modes__random--toggle toggleBtn ${
@@ -34,10 +35,11 @@ const home = () => `
                 }"
                 onclick="modeToggle('random')"
               >
+              
                 Random Mode
               </button>
             </div>
-            <input type="number" placeholder="Time between messages (Min)" onkeyup="writing(this)" name="every" id="Every">
+            <input type="number" placeholder="Time between messages (Min)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every}"/>
             <div class="modes__scheduled">
               <button
                 class="modes__scheduled--toggle toggleBtn ${
@@ -49,6 +51,7 @@ const home = () => `
               </button>
             </div>
             <div class="modes__auto">
+              <input type="text" placeholder="Key Word for Auto Mode" onkeyup="writing(this)" name="autoKeyWord" id="autoKeyWord" value="${jsConfig.keyWord}"/>
               <button
                 class="modes__auto--toggle toggleBtn ${
                   jsConfig.modes.auto ? "btnOn" : ""
