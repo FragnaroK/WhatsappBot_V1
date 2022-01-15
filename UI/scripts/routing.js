@@ -7,6 +7,7 @@ function routes(route) {
   switch (route) {
     case "home":
       content.innerHTML = home();
+      setTimeout(() => {content.innerHTML = home();}, 1000); 
       break;
     case "random":
       content.innerHTML = scheme("random");

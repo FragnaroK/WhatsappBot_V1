@@ -20,7 +20,8 @@ import json
 import sys
 from types import SimpleNamespace
 from selenium import webdriver
-from os import getlogin, path
+from os import getlogin, path, system
+from time import sleep as wait
 
 from UI import pyConfig, jsConfig
 
@@ -44,11 +45,12 @@ class pythonConfig:
         self.phone = phone
         
 class jsConfig:
-    def __init__(self, modes, randomPhrases, scheduledPhrases, autoMessages, every, times):
+    def __init__(self, modes, randomPhrases, scheduledPhrases, autoMessages, kWord, every, times):
         self.modes = [modes.random, modes.scheduled, modes.auto]
         self.randomPhrases = randomPhrases
         self.scheduledPhrases = scheduledPhrases
         self.autoMessages = autoMessages
+        self.keyWord = kWord
         self.every = every
         self.times = times
 
@@ -60,9 +62,9 @@ UIenable = True
 # pythonConfig: config
 
 selectedBrowser = "Chrome"
-
+global toFinish 
 # Here you can add the target, do not forget the area code +00
-manualPhone = "+61404558115"
+manualPhone = "+0000000000"
 
 # Url of whatsapp, do not change ir unless it is necesary
 manualURL = "https://web.whatsapp.com/send?phone={}".format(manualPhone)
@@ -79,7 +81,7 @@ def getJsConfig():
                 "r", encoding="utf8") as f:
         setJsConfigFile = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     global setJsConfig
-    setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.every, setJsConfigFile.times) 
+    setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.keyWord, setJsConfigFile.every, setJsConfigFile.times) 
     f.close()
     
 def getPytConfig():
@@ -120,6 +122,7 @@ def setupConfig(Config):
     bot.write("const phrases={};".format(Config.randomPhrases))
     bot.write("const schePhrases={};".format(schePhra.replace("=", ":")))
     bot.write("const chats={};".format(autoMsg.replace("=", ":")))
+    bot.write('const keyWord="{}";'.format(Config.keyWord))
     
     for line in config:
         bot.write(line)
@@ -130,24 +133,26 @@ def setupConfig(Config):
 def startBotOn(browser):
     
     global driver
+    global toFinish
     if browser == ("Chrome" or "chrome"):
         try:
             from selenium.webdriver.chrome.options import Options
+            toFinish = "chromedriver"
             print("Chrome Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Chrome Not Found")
             print(err)
-
         options = Options()
         options.add_argument(
             "--user-data-dir=C:\\Users\\{}\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 2".format(user))
         options.add_argument("--disable-extensions")
         driver = webdriver.Chrome(
-            executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options)
+            executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options, service_args=["--log-path={dir_path}\\ChromeLog.txt"])
 
     if browser == ("Edge" or "edge"):
         try:
             from selenium.webdriver.edge.options import Options
+            toFinish = "msedgedriver"
             print("Edge Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR:  Selenium WebDriver Edge Not Found")
@@ -163,6 +168,7 @@ def startBotOn(browser):
     if browser == ("Firefox" or "firefox"):
         try:
             from selenium.webdriver.firefox.options import Options
+            toFinish = "geckodriver"
             print("Firefox Module Found")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Firefox Not Found")
@@ -192,4 +198,6 @@ def startBot():
                 "r", encoding="utf8")
         driver.get(manualURL)
         driver.execute_script(bot.read())
-
+    
+def stopDriver():   
+    system("TASKKILL /IM {}.exe".format(toFinish))

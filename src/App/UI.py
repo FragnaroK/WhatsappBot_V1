@@ -32,11 +32,12 @@ class pyConfig:
         self.phone = phone
         
 class jsConfig:
-    def __init__(self, modes, rPhrases, sPhrases, aMessages, interval, time):
+    def __init__(self, modes, rPhrases, sPhrases, aMessages, kWord, interval, time):
         self.modes = [modes.random, modes.scheduled, modes.auto]
         self.randomPhrases = rPhrases
         self.scheduledPhrases = sPhrases
         self.autoMessages = aMessages
+        self.keyWord = kWord
         self.every = interval
         self.time = time
         
@@ -53,7 +54,7 @@ def getjsConfig(Config):
     print(Config)
     data = json.loads(str(Config), object_hook=lambda d: SimpleNamespace(**d))
     global userConfig
-    userConfig = jsConfig(data.modes, data.randomPhrases, data.scheduledPhrases, data.autoMessages , data.every, data.times)
+    userConfig = jsConfig(data.modes, data.randomPhrases, data.scheduledPhrases, data.autoMessages, data.keyWord, data.every, data.times)
     saveData(data, "userConfig")
 
 @eel.expose
@@ -63,7 +64,7 @@ def checkSavedData():
         with open(r"{}\config\userConfig.json".format(dir_path),
                 "r", encoding="utf8") as f1:
             setJsConfigFile = json.load(f1, object_hook=lambda d: SimpleNamespace(**d))
-            setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.every, setJsConfigFile.times) 
+            setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.keyWord , setJsConfigFile.every, setJsConfigFile.times) 
             f1.close()
         with open(r"{}\config\botConfig.json".format(dir_path),
                 "r", encoding="utf8") as f:
@@ -89,7 +90,7 @@ def startBot():
      main.runBot()
 
 def runUI():
-    eel.init('web', allowed_extensions=['.js', '.html'])
+    eel.init('UI', allowed_extensions=['.js', '.html'])
     eel.start('index.html')
 
     
