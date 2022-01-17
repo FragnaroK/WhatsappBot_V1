@@ -14,6 +14,9 @@ const home = () => `
                 onkeyup="writing(this)"
               />
             </div>
+            <div class="container--logo"> 
+            <img src="./assets/wpp.png" class="logo">
+            </div>
             <div class="form">
               <label for="Phone">Phone</label>
               <input
@@ -24,6 +27,10 @@ const home = () => `
                 value="${pyConfig.phone}"
                 onkeyup="writing(this)"
               />
+            </div>
+            <div class="form">
+              <label for="Phone">Every</label>
+              <input type="number" placeholder="Send Every... (Minutes)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every}"/>
             </div>
           </section>
           <section class="modes">
@@ -39,7 +46,17 @@ const home = () => `
                 Random Mode
               </button>
             </div>
-            <input type="number" placeholder="Time between messages (Min)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every}"/>
+            <div class="modes__auto">
+            <button
+              class="modes__auto--toggle toggleBtn ${
+                jsConfig.modes.auto ? "btnOn" : ""
+              }"
+              onclick="modeToggle('auto')"
+            >
+              Auto Mode
+            </button>
+              
+            </div>
             <div class="modes__scheduled">
               <button
                 class="modes__scheduled--toggle toggleBtn ${
@@ -50,19 +67,9 @@ const home = () => `
                 Scheduled Mode
               </button>
             </div>
-            <div class="modes__auto">
-              <input type="text" placeholder="Key Word for Auto Mode" onkeyup="writing(this)" name="autoKeyWord" id="autoKeyWord" value="${jsConfig.keyWord}"/>
-              <button
-                class="modes__auto--toggle toggleBtn ${
-                  jsConfig.modes.auto ? "btnOn" : ""
-                }"
-                onclick="modeToggle('auto')"
-              >
-                Auto Mode
-              </button>
-            </div>
+            <input type="text" placeholder="Key Word for Auto Mode" onkeyup="writing(this)" name="autoKeyWord" id="autoKeyWord" value="${jsConfig.keyWord}"/>
           </section>
-          <button class="start" onclick="saveBot()">Save</button>
+         <!-- <button class="start" onclick="saveBot()">Save</button> -->
           <button class="start" onclick="startBot()">Start Bot</button>
         </section>
 `;
@@ -102,6 +109,7 @@ const loadRandom = (reload, p = randomPhrases) => {
       p.indexOf(phrase)
     );
   });
+  // if (!reload) addInput('random','');
 };
 
 const loadScheduled = (reload, p = scheduledPhrases) => {
@@ -114,9 +122,10 @@ const loadScheduled = (reload, p = scheduledPhrases) => {
       p.indexOf(phrase)
     );
   });
+  // if (!reload) addInput('scheduled','');
 };
 
-const loadAuto = (reload, p = autoMessages) => {
+const loadAuto = (reload, p = autoMessages, openAnswers) => {
   if (reload) autoMessages = [...newAutoMessages];
   newAutoMessages = [];
   p.forEach((chat) => {
@@ -124,8 +133,10 @@ const loadAuto = (reload, p = autoMessages) => {
       "auto",
       chat,
       p.indexOf(chat)
-    );
-  });
+      );
+    });
+    if (openAnswers) openAnswers.forEach((i) => toggleAnswers(`chat-${i}__answers`, document.getElementById(`showAnswersButton${i}`)))
+    // if (!reload && ) addInput({name: 'auto', index: autoMessages.length},{ask: '', answers: ['']});
 };
 // ELEMENTS
 
@@ -139,15 +150,15 @@ const phraseInput = (type, value, index, where = ".form") => {
     return `
     <div class="input r">
     <input type="text" placeholder="Write message here" class="addRandomPhrase inputPhrase r${index}" value="${value}" onkeyup="phraseWriting('random', this, ${index})"/>
-    <button class="btn add" onclick="delInput('r', this, ${index})">X</button>
+    <button class="btn del" onclick="delInput('r', this, ${index})">X</button>
     </div>
     `;
   }
   if (type == "scheduled" && where == ".form") {
     return `<div class="input s">
     <input type="text" placeholder="Write a message here" class="inputPhrase s${index}" value="${value.phrase}" onkeyup="phraseWriting('scheduled', this, ${index})">
-    <input type="number" placeholder="time" value="${value.time}" class="inputTime s${index}">
-    <button class="btn add" onclick="delInput('s', this, ${index})">X</button>
+    <input type="number" placeholder="time (H)" value="${value.time}" class="inputTime s${index}">
+    <button class="btn del" onclick="delInput('s', this, ${index})">X</button>
   </div>`;
   }
 
@@ -157,15 +168,23 @@ const phraseInput = (type, value, index, where = ".form") => {
 
     value.answers.forEach(
       (answer, i) =>
-        (answers += `<input type="text" placeholder="Write answer" ${i == (value.answers.length - 1)? `onkeyup=\"event.key == 'Enter'? ${func} : null\"` : ""} class="inputAnswer chat-${index} answer${i}" value="${answer}">`)
+        (answers += `
+        <div class="answerCont answerCont-${i}">
+        <input type="text" placeholder="Answer" ${i == (value.answers.length - 1)? `onkeyup=\"event.key == 'Enter'? ${func} : null\"` : ""} class="inputAnswer chat-${index} answer${i}" value="${answer}">
+        <button class="btn del" onclick="delInput({type: 'a', input: 'answer'},this,{chat: ${index}, answer: ${i}})">X</button>
+        </div>`)
     );
     if (where == ".form") {
       return `<section class="chat chat-${index}">
-      <input type="text" placeholder="Write query" class="inputPhrase question${index}" value="${value.ask}">
+      <input type="text" placeholder="Question" class="inputPhrase question${index}" value="${value.ask}"> 
       <section class="answers chat-${index}__answers">
       ${answers}
       <button class="btn add" onclick="${func}">+</button>
       </section>
+      <button class="showAnswers" onclick="toggleAnswers('chat-${index}__answers', this)" id="showAnswersButton${index}">
+       View Answers
+      </button>
+      <button class="btn del" onclick="delInput({type: 'a', input: 'chat'}, this, ${index})">X</button>
       </section>`;
     }
     if (where == ".answers") {

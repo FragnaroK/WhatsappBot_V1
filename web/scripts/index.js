@@ -48,11 +48,13 @@ function asignarPyConfig(obj) {
   document.getElementById("Browser").value = pyConfig.browser;
 }
 
+
 eel.expose(getSavedData);
 function getSavedData(jsData, pyData) {
   savedJsData = JSON.parse(jsData);
   savedPyData = JSON.parse(pyData);
-  console.log(savedPyData);
+  console.log("jsData: ",jsData);
+  console.log("PyData: ", pyData);
   if (savedJsData != (undefined || null || "")) asignarJsConfig(savedJsData);
   if (savedPyData != (undefined || null || "")) asignarPyConfig(savedPyData);
   console.log("Valores guardados asigandos a js COnfig", jsConfig);
@@ -62,8 +64,9 @@ function getSavedData(jsData, pyData) {
   autoMessages = [...jsConfig.autoMessages]
 }
 
-function checkLocalData() {
-  console.log(jsConfig);
+function checkLocalData(loadData = false) {
+  console.log("Loading Data...")
+  if (loadData) routes("home", document.getElementById("homeTab"), true);
   eel.checkSavedData();
 }
 
@@ -174,11 +177,13 @@ function addInput(type, value, where = ".form") {
   }
 
   if (type.name == "auto") {
+    let openAnswers = []
     inputs.forEach((ask, i) => {
       values.push({ ask: ask.value, answers: [] });
       document.querySelectorAll(`.inputAnswer.chat-${i}`).forEach((answer) => {
         values[i].answers.push(answer.value);
       });
+      if (document.querySelector(`.chat-${i}__answers`).classList.contains("ansOpen")) openAnswers.push(i)
     });
     if (where.where == ".answers") values[type.index].answers.push("");
     if (where == ".form") values.push(value);
@@ -187,14 +192,15 @@ function addInput(type, value, where = ".form") {
     newAutoMessages = [...values];
     console.log("nAm asigando: ", newAutoMessages);
     if (newAutoMessages.length != 0)
-      loadAuto(true, newAutoMessages);
+      loadAuto(true, newAutoMessages, openAnswers);
     console.log("Values: ", values);
     console.log("NewAutoMessages: ", newAutoMessages);
     console.log("AutoMessages: ", autoMessages);
   }
 }
 
-function delInput(input, button, index) {
+function delInput(input, button = false, index) {
+  if (input == ("r" || "s")) {
   document.querySelectorAll("." + input + index).forEach((e) => e.remove());
   button.remove();
   if (input == "r") {
@@ -205,6 +211,22 @@ function delInput(input, button, index) {
   if (input == "s") {
     if (index == 0) newScheduledPhrases.shift();
     if (index > 0) newScheduledPhrases.splice(index, index++);
+  }
+}
+  if (input.type == "a") {
+    if (input.input == "answer"){
+      document.querySelectorAll(`.answerCont-${index.answer}`).forEach((e) => e.remove());
+      button.remove();
+      if (index == 0) newAutoMessages[index.chat].answers[index.answer].shift();
+      if (index > 0) newAutoMessages[index.chat].answers[index.answer].splice(index.answer, index.answer++);
+    }
+    if (input.input == "chat"){
+      document.querySelectorAll(`.chat-${index}`).forEach((e) => e.remove());
+      document.querySelectorAll(`.chat-${index}__answers`).forEach((e) => e.remove());
+      button.remove();
+      if (index == 0) newAutoMessages.shift();
+      if (index > 0) newAutoMessages.splice(index, index++);
+    }
   }
 }
 
@@ -254,6 +276,7 @@ function addPhrases(type) {
 
   if (type == "auto") {
     inputs.forEach((ask, i) => {
+      
       if (ask.value != ("" || undefined || null)) {
         values.push({ ask: ask.value, answers: [] });
         document.querySelectorAll(`.inputAnswer.chat-${i}`).forEach((answer) => {
@@ -276,4 +299,18 @@ function addPhrases(type) {
   saveBot();
 }
 
-// SCHEDULED ROUTE
+function toggleAnswers(answers, button) {
+  const ans = document.querySelector(`.${answers}`);
+  const btn = document.getElementById(button.id);
+
+  if (btn.classList.contains("btnOpen")){
+    addRemClass(btn, false, ["btnOpen"]);
+    addRemClass(ans, false, ["ansOpen"]);
+    btn.textContent = "View Answers";
+  } else {
+    addRemClass(btn, ["btnOpen"], false);
+    addRemClass(ans, ["ansOpen"], false);
+    btn.textContent = "Hide Answers";
+  }
+
+}

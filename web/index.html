@@ -11,10 +11,11 @@
     <header>
       <nav class="navBar">
         <ul class="navBar__list">
-          <li class="list__item" onclick="routes('home')">HOME</li>
-          <li class="list__item" onclick="routes('random')">Random</li>
-          <li class="list__item" onclick="routes('scheduled')">Scheduled</li>
-          <li class="list__item" onclick="routes('auto')">Auto</li>
+          <li class="list__item" onclick="routes('home', this)" id="homeTab">HOME</li>
+          <li class="list__item" onclick="routes('random', this)" id="randomTab">RANDOM</li>
+          <li class="list__item" onclick="routes('scheduled', this)" id="scheduledTab">SCHEDULED</li>
+          <li class="list__item" onclick="routes('automatic', this)" id="automaticTab">AUTO</li>
+          <li onclick="checkLocalData(true)">Load Data</li>
         </ul>
       </nav>
     </header>
