@@ -215,7 +215,7 @@ function delInput(input, button = false, index) {
 }
   if (input.type == "a") {
     if (input.input == "answer"){
-      document.querySelectorAll(`.answerCont-${index.answer}`).forEach((e) => e.remove());
+      document.querySelectorAll(`.chat-${index.chat}__answerCont-${index.answer}`).forEach((e) => e.remove());
       button.remove();
       if (index == 0) newAutoMessages[index.chat].answers[index.answer].shift();
       if (index > 0) newAutoMessages[index.chat].answers[index.answer].splice(index.answer, index.answer++);
@@ -227,6 +227,11 @@ function delInput(input, button = false, index) {
       if (index == 0) newAutoMessages.shift();
       if (index > 0) newAutoMessages.splice(index, index++);
     }
+    let openAnswers;
+    document.querySelectorAll(`.chat`).forEach((input, i) => {
+      if (document.querySelector(`.chat-${i}__answers`) && document.querySelector(`.chat-${i}__answers`).classList.contains("ansOpen")) openAnswers.push(i)
+    })
+    addPhrases("auto", openAnswers)
   }
 }
 
@@ -235,7 +240,7 @@ function phraseWriting(type, text, index) {
   if (type == "scheduled") newScheduledPhrases[index] = text.value;
 }
 
-function addPhrases(type) {
+function addPhrases(type, openAnswers = false) {
   let values = [];
   let inputs = document.querySelectorAll(".inputPhrase");
   if (type == "random") {
@@ -292,7 +297,8 @@ function addPhrases(type) {
     jsConfig.autoMessages = [...newAutoMessages];
     console.log("nAm asigando: ", newAutoMessages);
     if (newAutoMessages.length != 0)
-      loadAuto(true, newAutoMessages);
+      loadAuto(true, newAutoMessages, openAnswers);
+      console.log("reloaded")
     console.log("Auto phrases saved: ", jsConfig.autoMessages);
 
   }

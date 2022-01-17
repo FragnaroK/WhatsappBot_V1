@@ -169,7 +169,7 @@ const phraseInput = (type, value, index, where = ".form") => {
     value.answers.forEach(
       (answer, i) =>
         (answers += `
-        <div class="answerCont answerCont-${i}">
+        <div class="answerCont chat-${index}__answerCont-${i}">
         <input type="text" placeholder="Answer" ${i == (value.answers.length - 1)? `onkeyup=\"event.key == 'Enter'? ${func} : null\"` : ""} class="inputAnswer chat-${index} answer${i}" value="${answer}">
         <button class="btn del" onclick="delInput({type: 'a', input: 'answer'},this,{chat: ${index}, answer: ${i}})">X</button>
         </div>`)
