@@ -1,20 +1,28 @@
 # WhatsApp Bot
 
-## Index
+#### News
+> ***20/01/2022*** [ ! ] UPDATE [ ! ]
+> * README.md updated
+> * I will be making some little but important changes, so the bot may not work until I am done
+
+## Indexs
 
 1. [Introduction](#introduction)
    - [Compatibility](#compatibility)
 2. [Usage](#usage)
-   - [Python File (Chrome Launcher)](#python)
-   - [JavaScript File (Messages)](#javascript)
+   - [With UI](#with-ui)
+   - [Without UI](#without-ui)
+     - [Python Files](#python)
+     - [JavaScript Files](#javascript)
 3. [Contributions](#about-contributions)
+4. [Contact](#contact)
 
 ## Introduction
 
 A WhatsApp bot developed with:
 
-- Python, using selenium
-- JavaScript
+- Python and JavaScript (bot)
+- Python, HTML, CSS and JavaScript (UI with eel library)
 
 I made it for **personal purposes** but modified some things to make it available to _anyone_ looking for a whatsapp bot that really _works well_.
 
@@ -24,62 +32,145 @@ After having a lot of headaches with bots from other developers, I realized that
 
 ### Compatibility
 
+**_Only Available on Windows_**
+
 For now, this bot is compatible with the following browsers:
 
 - Google Chrome
 - Microsoft Edge
 - Mozilla Firefox
 
+
 ## Usage
 
-This project is divided into two parts:
+This bot can be used in two ways:
 
-1. A python file to open a google chrome window and inject the javascript file
-2. A javascript file with the "Logic" of the bot and the phrases
+1. [With User Interface](#with-user-interface)
+2. [Without User Interface](#without-user-interface)
 
-### Python
+The UI is enabled by default, but if you want to change it just change the value of `UIstatus` from `True` to `False` in _main.py_.
 
-In the following line you can change the number of the target you want to send messages to _(do not forget the area code "+00")_
+### With User Interface
 
-    driver.get("https://web.whatsapp.com/send?phone=Number of the target")
+This UI is very simple and it doesn't require a complex explanation, if you have any doubt/issue or may be ideas to improve it, do not hesitate to send me an email or report it.
 
-### JavaScript
+_Home Tab_
+![Home Tab](./images/WPP_BOT--home.jpeg)
+> Here you should be able to setup the target, browser, time between messages, keyword for auto mode, turn on/off any mode abd finally _start the bot_.
 
-This bot has two modes:
+>>> I don't know if it is my imagination, but this tab is like a robot's face.
 
-1. Only Random Messages
-2. Only Scheduled Messages (An hour or less of time between messages is a **MUST** for this mode, _this requeriment include random messages_)
+_Random Tab_
+![Random Tab](./images/WPP_BOT--random.jpeg)
+> Here you should be able to add and delete phrases to send randomly
 
-> You can activate both at the same time
+_Scheduled Tab_
+![Scheduled Tab](./images/WPP_BOT--scheduled.jpeg)
+> Here you should be able to add and delete scheduled messages and the time preferred
 
-You can add phrases in the constant "phrases", don't forget the "cuotes" and ,commas,. You can change how much time it should wait between messages.
+_Automatic Tab_
+![Automatic Tab](./images/WPP_BOT--auto.jpeg)
+> Here you should be able to add and delete any ask and answer
 
-    const everyS = 3600000 // Here you can change the time (miliseconds). Default: every hour
+### Without User Interface
 
-    const phrases = [
-        "Some phrase",
-        "Another phrase"
-    ]
+You just have to focus on two files:
 
-These sentences will be sent _randomly_ every certain time you specify. If you want to send messages at an _exact time_, you can add phrases to the "schePhrases" constant and add the time to the "scheTime" constant. Let me explain this function in detail:
+1. [Python file](#python-file) called "driverConfig.py"
+2. Javascript file called "config.js" located in the "config" folder
 
-This is the structure of the scheduled phrases
 
-    const schePhrases: [
-            {
-            phrase: "Some phrase", // Well, the phrase
-            time: 12, // Here you should type the specific hour that you want to send it from 0 to 23
-            },
+#### Python File
 
-    ]
+> ./driverConfig.py
 
-    const scheTime = [12, 13, 1, 23] // Here you should put all the hours you put in the schePhrases time
+1. Change the value of `selectedBrowser` to your preferred browser.
 
-> - Note-1: In scheTime constant, you DO NOT have to put repeated numbers. Just one time.
-> - Note-2: It doesn't matters if you put several phrases for the same time, It will send them together.
+		selectedBrowser = "Edge"
 
-## About Contributions
+2. Change the value of `manualPhone` to the target's phone number including its area code.
+
+		manualPhone = "+141557897845"
+
+
+#### Javascript File
+
+> ./config/config.js
+
+This bot has three modes:
+
+- [Random Messages](#random-messages)
+- [Scheduled Messages](#scheduled-messages)
+- [Automatic Messages](#automatic-messages)
+
+> You can keep all the modes activated
+
+##### _Random Messages_
+
+This mode aim to select a random message from a list and send it to your target, the time between messages can be selected changing `everyS` value. _If you decide to activate scheduled messages too, then the maximum of time is an hour (3600000 ms) between messages_
+
+	const everyS = 3600000 // Send messages every hour
+	
+	const phrases = [
+		"Some phrase",
+		"Another phrase"
+	]
+
+##### _Scheduled Messages_
+
+This mode aim to send messages at your preferred time, from 0 to 23.
+
+	const schePhrases = [
+		{
+			phrase: "Some Scheduled Phrase", // the message
+			time: 12 // your preferred time, in this case 12pm
+		},
+		{
+			phrase: "Another Scheduled Phrase"
+			time: 22
+		},
+		{
+			phrase: "An extra phrase as example of scheTime",
+			time: 12
+		}
+	]
+
+	const scheTime = [12, 22] // it should have all the time values without repeated numbers.
+
+> * Note-1: It doesn't matters if you put several messages at the same time, It will send them together.
+
+##### _Automatic Messages_
+
+This mode aim to answer messages from the traget, you'll be able to change the `keyWord` to read the message. This is a new feature that that I would love to improve it through the time.
+
+	const keyWord = "hey, "; // the bot should read the message and answer only if it has this keyword
+	
+	const chats = [
+		{
+			ask: "question or phrase",
+			answers: [	// it could have several answers
+				"question 1 answer 1",
+				"question 1 answer 2",
+				"question 1 answer 3"
+			]
+		},
+		{
+			ask: "question or phrase 2",
+			answers: [ // or only one but inside an array
+				"question 2 answer 1"
+			]
+		}
+	];
+
+## About Collaborations
 
 It's my first "bot" so I know there might be people who find bugs in it or manny ways to improve it, so if you want to give me some feedback or contribute to the project that would be great! :D
 
 Also, English is not my first language, so I'd love if you could let me know if there are any grammatical errors.
+
+## Contact
+
+Don't be shy and contact me if you have any doubt or issue :D 
+
+**Email**: _fcanalejo2000@outlook.com_ \
+**Discord**: _FragnaroK#1636_

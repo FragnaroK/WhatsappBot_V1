@@ -1,8 +1,17 @@
 from UI import runUI
 from driverConfig import startBot
 
-def runBot():
-    startBot()
+# User Interface enable with `True` and disabled with `False`
+UIstatus = True
+
+def startFromUI():
+    startBot(UI)
+
+def runBot(UI = True):
+    if (UI):
+        runUI()
+    else:
+        startBot(UI)
 
 if __name__ == "__main__":
-    runUI()
+    runBot(UIstatus)

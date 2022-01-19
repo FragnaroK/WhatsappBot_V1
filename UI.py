@@ -87,7 +87,7 @@ def startBot():
      except ModuleNotFoundError or ImportError as err:
         print("[!] ERROR:  Bot Module Not Found")
         print(err)
-     main.runBot()
+     main.startFromUI()
 
 def runUI():
     eel.init('web', allowed_extensions=['.js', '.html'])

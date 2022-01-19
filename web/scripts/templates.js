@@ -99,7 +99,7 @@ const auto = () => `
           </section>
 `;
 
-const loadRandom = (reload, p = randomPhrases) => {
+const loadRandom = (reload, p = jsConfig.randomPhrases) => {
   if (reload) randomPhrases = [...newRandomPhrases];
   newRandomPhrases = [];
   p.forEach((phrase) => {
@@ -112,7 +112,7 @@ const loadRandom = (reload, p = randomPhrases) => {
   // if (!reload) addInput('random','');
 };
 
-const loadScheduled = (reload, p = scheduledPhrases) => {
+const loadScheduled = (reload, p = jsConfig.scheduledPhrases) => {
   if (reload) scheduledPhrases = [...newScheduledPhrases];
   newScheduledPhrases = [];
   p.forEach((phrase) => {
@@ -125,7 +125,7 @@ const loadScheduled = (reload, p = scheduledPhrases) => {
   // if (!reload) addInput('scheduled','');
 };
 
-const loadAuto = (reload, p = autoMessages, openAnswers) => {
+const loadAuto = (reload, p = jsConfig.autoMessages, openAnswers) => {
   if (reload) autoMessages = [...newAutoMessages];
   newAutoMessages = [];
   p.forEach((chat) => {

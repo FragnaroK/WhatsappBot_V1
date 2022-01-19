@@ -2,21 +2,54 @@ const content = document.getElementById("content");
 // HOME ROUTE
 
 var pyConfig = {
-  browser: "",
-  phone: "",
+  browser: "Edge",
+  phone: "+141557897845",
 };
 
 var jsConfig = {
   modes: {
-    random: false,
+    random: true,
     scheduled: false,
     auto: false
   },
-  randomPhrases: [],
-  scheduledPhrases: [],
-  autoMessages: [],
-  keyWord: "",
-  times: [],
+  randomPhrases: [
+    "Some Phrase",
+    "Another Phrase"
+  ],
+  scheduledPhrases: [
+    {
+      phrase: "Some Scheduled Phrase",
+      time: 12
+    },
+    {
+      phrase: "Another Scheduled Phrase",
+      time: 22
+    },
+    {
+      phrase: "An extra phrase as example of scheTime",
+      time: 12
+    }
+  ],
+  autoMessages: [
+    {
+      ask: "question or phrase",
+      answers: [
+        "question 1 answer 1",
+        "question 1 answer 2",
+        "question 1 answer 3",
+      ]
+    },
+    {
+      ask: "question or phrase 2",
+      answers: [
+        "question 2 answer 1",
+        "question 2 answer 2",
+        "question 2 answer 3",
+      ]
+    }
+  ],
+  keyWord: "hey, ",
+  times: [12, 22],
   every: 36000,
 };
 

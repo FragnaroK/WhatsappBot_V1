@@ -1,5 +1,5 @@
 window.onload = () => {
-  let initialTab = "automatic"
+  let initialTab = "home"
   routes(initialTab, document.getElementById(`${initialTab}Tab`));
   
 };
@@ -18,14 +18,14 @@ function routes(route, tab, loadData = false) {
       case "home":
         content.innerHTML = home();
         break;
-        case "random":
-          content.innerHTML = scheme("random");
-          loadRandom(false);
-          break;
-    case "scheduled":
-      content.innerHTML = scheme("scheduled");
-      loadScheduled(false);
-      break;
+      case "random":
+        content.innerHTML = scheme("random");
+        loadRandom(false);
+        break;
+      case "scheduled":
+        content.innerHTML = scheme("scheduled");
+        loadScheduled(false);
+        break;
       case "automatic":
         content.innerHTML = auto();
         loadAuto(false);

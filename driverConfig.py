@@ -53,14 +53,9 @@ class jsConfig:
         self.every = every
         self.times = times
 
-
-# disable/enable UI
-
-UIenable = True
-
 # pythonConfig: config
 
-selectedBrowser = "Chrome"
+selectedBrowser = "Edge"
 
 # Here you can add the target, do not forget the area code +00
 manualPhone = "+0000000000"
@@ -177,8 +172,8 @@ def startBotOn(browser):
         driver = webdriver.Firefox(
             executable_path='{}\\drivers\\geckodriver.exe'.format(dir_path), options=options)
 
-def startBot():
-    if (UIenable):
+def startBot(UI = True):
+    if (UI):
         getJsConfig()
         getPytConfig()
         setupConfig(setJsConfig)
