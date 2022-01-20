@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chromium Portable help</title>
+
+  <link rel="shortcut icon" href="App/AppInfo/AppIcon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700,400italic%7CFira+Mono">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.1.3/material.blue_grey-blue.min.css">
+  <link rel="stylesheet" href="Other/Help/Style.css">
+
+  <div class="mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--blue-700">
+    <main class="mdl-layout__content" id="content-layout">
+      <div class="mdl-grid" id="content-container">
+        <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+        <div class="mdl-color--blue-50 mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col" id="content">
+          <h1>Chromium Portable help</h1>
+<h2>About</h2>
+<p>Chromium Portable is a custom-built version of the Chromium web browser, optimized for portable use and packaged in the <a href="http://portableapps.com/about/what_is_a_portable_app">PortableApps.com Format</a>, so you can run it from an iPod, USB flash drive, portable hard drive, CD or any other portable media.  You can take your bookmarks, extensions, themes and plugins with you, and Chromium Portable will leave no personal information behind on the machine you run it on.</p>
+<p>You're free to redistribute Chromium Portable under the terms of the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License, v. 2.0</a>.  For more information on this matter, as well as how to obtain Chromium Portable's source code, see the <a href="http://crportable.sourceforge.net/">website</a>.</p>
+<h2>Settings</h2>
+<p>Chromium Portable has a few settings that affect the behavior of the launcher and of the browser.  They can be set by creating a file named <code>ChromiumPortable.ini</code> alongside <code>ChromiumPortable.exe</code>.</p>
+<p>The <code>ChromiumPortable.ini</code> file is composed of lines in the <code><var>key</var>=<var>value</var></code> format.  Valid keys are listed below.</p>
+<dl>
+  <dt> <kbd>AdditionalParameters=<code><var>&lt;text&gt;</var></code></kbd>
+  <dd> Additional command-line parameters to the browser.  A list of available switches is available <a href="http://peter.sh/experiments/chromium-command-line-switches/">here</a>.
+  <dt> <kbd>AskForIncognito=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Opens a dialog on startup asking if Chromium&nbsp;Portable is to be started in the incognito mode.
+  <dt> <kbd>DisableSplashScreen=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Disables the splash screen shown during startup.
+  <dt> <kbd>EnablePortablePasswords=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dt> <kbd>EncryptPortablePasswords=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Enable support for storing passwords portably.  See the <a href="https://bitbucket.org/AluisioASG/crppmgr/src/tip/README.md">Portable Passwords Management Tool's readme file</a> for details.
+  <dt> <kbd>HideProfileButton=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Hides the profile button between the tab bar and the window controls.  Based on <a href="https://github.com/Akujin/chromium-disable-profile-button-patch">this patch</a>.
+  <dt> <kbd>LocalDiskCache=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Stores the disk cache in the host computer's temporary directory.  This will reduce the number of writes to the device where Chromium&nbsp;Portable is installed, increasing its lifetime.
+  <dt> <kbd>RunLocally=</kbd><kbd>true</kbd> or <kbd>false</kbd>
+  <dd> Runs the portable application in a read-only mode.  When this option is enabled, the launcher copies the user's data to a temporary directory on the host computer, runs the application, and then deletes it afterwards, leaving nothing behind.  This can be useful for running the application from a CD or if the host computer may have spyware or viruses and you'd like to keep your device set to read-only.  <strong>As a consequence of this technique, any changes made during the Live mode session aren't saved back to the device.</strong>
+  <dt> <kbd>GoogleAPIKeys=<code><var>&lt;api key&gt;</var> :: <var>&lt;client id&gt;</var> :: <var>&lt;client secret&gt;</var></code></kbd>
+  <dd> Access keys for the Google APIs.  More details are available at the <a href="https://dev.chromium.org/developers/how-tos/api-keys">Chromium development website</a>.  <strong>Note that the delimiters (<code>::</code>) are surrounded by a single space on each side.</strong>
+  <dd> This can also be set to <kbd><code>none</code></kbd> to hide the “Google API keys are missing” infobar shown at startup.</strong>
+</dl>
+<h2>Tips</h2>
+<h3>Reducing the application size</h3>
+<p>If space is a concern, there are a few things you can do to reduce the program size.  They are listed in effectiveness and recommendation order.</p>
+<ul>
+<li>Don't install the 64-bit executables</li>
+<li>Compress Chromium Portable with the <a href="http://portableapps.com/apps/utilities/portableapps.com_appcompactor">PortableApps.com AppCompactor</a>, using NRV2E compression</li>
+<li>Clean up navigation data regularly</li>
+<li>Remove extra language files from <code>App\Chromium\shared\locales\</code>; make sure to keep the one corresponding to your language</li>
+<li>Disable malware and phishing protection</li>
+</ul>
+<h3>Copying a local profile</h3>
+<p>If you're using a local copy of Chromium or a derivative, like Google Chrome, you may wish to just copy your local browser settings right into Chromium Portable.  For that, you just need to copy the <em>contents</em> of the folder corresponding to your browser to the <code>Data</code> directory in your Chromium Portable install.  To access these folders, enter the given address in Windows Explorer's address bar.</p>
+<ul>
+<li>Chromium, SRWare Iron: <code>%LOCALAPPDATA%\Chromium\User Data\</code></li>
+<li>Google Chrome: <code>%LOCALAPPDATA%\Google\Chrome\User Data\</code></li>
+<li>Comodo Dragon: <code>%LOCALAPPDATA%\Comodo\Dragon\User Data\</code></li>
+</ul>
+<p>You can copy your profile from Chromium Portable to a local browser by performing the converse steps.</p>
+<h3>Making a portable copy of Flash</h3>
+<p>To copy the Flash plugin from a Google Chome Portable install:</p>
+<ul>
+<li>Create a directory <code><var>&lt;ChromiumPortableDir&gt;</var>\Data\App\PepperFlash\32</code>, including the possibly missing paths in-between.</li>
+<li>Copy the files in <code><var>&lt;GoogleChromePortableDir&gt;</var>\App\Chrome-bin\<var>&lt;version&gt;</var>\PepperFlash</code> to the folder you just created.</li>
+</ul>
+<p>For use with the 64-bit Chromium Portable, replace <code>32</code> with <code>64</code> in the first step, and use <a href="http://portableapps.com/apps/internet/google_chrome_portable#test">Google Chrome Portable (64-bit)</a> in the second step.</p>
+<p>Remember to keep the plugin updated (especially when Chromium Portable nags you to do so).</p>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</html>

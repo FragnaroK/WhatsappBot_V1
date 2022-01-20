@@ -1,0 +1,74 @@
+/* This file is in the public domain. */
+
+/* MDL wants to use Roboto everywhere.  We want to use Fira everywhere.
+   Solution: pretend one is the other. */
+@font-face {
+  font-family: 'Roboto';
+  src: local('Fira Sans');
+}
+
+/* We also want the best rendering we have available. */
+body {
+  font-family: 'Fira Sans', 'Helvetica Neue', 'Helvetica', 'Tahoma', sans-serif !important;
+  text-rendering: optimizeLegibility;
+}
+
+/* Align and size the logo with the title. */
+#content h2 img {
+  max-height: 2ex;
+}
+
+/* Center-align the no-JS navigation links. */
+#content nav.mdl-navigation {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+/* Certain things do not belong on small screens. */
+@media screen and (max-width: 851px) {
+  #tagline, #content h2 img {
+    display: none;
+  }
+}
+
+/* No margin for the headlines. */
+#content h2 {
+  margin-top: 0;
+}
+
+/* Make the header actually fixed. */
+@media screen and (min-width: 851px) {
+  .mdl-layout--fixed-header > .mdl-layout__header {
+    position: fixed;
+  }
+}
+
+
+/* Comes with MDL's article template. */
+#content-layout {
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
+}
+
+#topbar .mdl-layout__header-row {
+  padding-left: 40px;
+}
+
+#content-container {
+  max-width: 1600px;
+  width: calc(100% - 16px);
+  margin: 0 auto;
+}
+
+#content {
+  border-radius: 2px;
+  padding: 80px 56px;
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
+.mdl-layout.is-small-screen #content {
+  padding: 40px 28px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
