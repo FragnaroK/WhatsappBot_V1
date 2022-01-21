@@ -17,13 +17,14 @@
 # Website:        https://fcanalejo.web.app
 
 import json
+from pathlib import Path
 import sys
 from types import SimpleNamespace
 from selenium import webdriver
-from os import getlogin, path, system
-from time import sleep as wait
+from os import getlogin, path
 
-from UI import pyConfig, jsConfig
+from App.models.userconfig import jsConfig, pyConfig
+
 
 # Change the name of the browser that you want to run this bot
 # Available browsers:
@@ -36,33 +37,11 @@ if getattr(sys, 'frozen', False):
     application_path = path.dirname(sys.executable)
 # or a script file (e.g. `.py` / `.pyw`)
 elif __file__:
-    application_path = path.dirname(__file__)
+    application_path = Path(path.dirname(__file__)).parent.absolute()
     
 
-class pythonConfig:
-    def __init__(self, browser, phone ):
-        self.browser = browser
-        self.phone = phone
-        
-class jsConfig:
-    def __init__(self, modes, randomPhrases, scheduledPhrases, autoMessages, kWord, every, times):
-        self.modes = [modes.random, modes.scheduled, modes.auto]
-        self.randomPhrases = randomPhrases
-        self.scheduledPhrases = scheduledPhrases
-        self.autoMessages = autoMessages
-        self.keyWord = kWord
-        self.every = every
-        self.times = times
+selectedBrowser = "Edge"
 
-
-# disable/enable UI
-
-UIenable = True
-
-# pythonConfig: config
-
-selectedBrowser = "Chrome"
-global toFinish 
 # Here you can add the target, do not forget the area code +00
 manualPhone = "+0000000001"
 
@@ -100,18 +79,24 @@ def clearBotConfig():
 
 
 def setupConfig(Config):
-    print(Config.scheduledPhrases)
+    try:
+        from css_html_js_minify import process_single_js_file
+        print("Starting JS Compressor!\n")
+    except ModuleNotFoundError or ImportError as err:
+        print("[!] ERROR: JavaScript Minify Module Not Found!")
+        print(err)
+    process_single_js_file(r"{}\config\WUI\config-noVars.js".format(dir_path),overwrite=False, output_path=r"{}\config\WUI\min-config.js".format(dir_path))
+    print("Minify Completed!\n\n")
     schePhra = str(Config.scheduledPhrases).replace("namespace(" , "{")
     schePhra = schePhra.replace(")", "}")
     autoMsg = str(Config.autoMessages).replace("namespace(" , "{")
     autoMsg = autoMsg.replace(")", "}")
-    print(schePhra.replace("=", ":"))
     clearBotConfig()
     # Bot logic
-    config = open(r"{}\config\min-config.js".format(dir_path),
+    config = open(r"{}\config\WUI\min-config.js".format(dir_path),
                   "r", encoding="utf8")
 
-    # Only change it if the name of the javascript file change, or address
+    # Only change it if the name of the javascript file change, or path
     bot = open(r"{}\bot.js".format(dir_path),
                "a+", encoding="utf8")
     bot.write("const onlyScheduled={};".format(str(Config.modes[1]).casefold()))
@@ -133,27 +118,25 @@ def setupConfig(Config):
 def startBotOn(browser):
     
     global driver
-    global toFinish
     if browser == ("Chrome" or "chrome"):
         try:
             from selenium.webdriver.chrome.options import Options
-            toFinish = "chromedriver"
-            print("Chrome Module Found")
+            print("Chrome Module Found!")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Chrome Not Found")
             print(err)
+
         options = Options()
         options.add_argument(
             "--user-data-dir=C:\\Users\\{}\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 2".format(user))
         options.add_argument("--disable-extensions")
         driver = webdriver.Chrome(
-            executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options, service_args=["--log-path={dir_path}\\ChromeLog.txt"])
+            executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options)
 
     if browser == ("Edge" or "edge"):
         try:
             from selenium.webdriver.edge.options import Options
-            toFinish = "msedgedriver"
-            print("Edge Module Found")
+            print("Edge Module Found!")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR:  Selenium WebDriver Edge Not Found")
             print(err)
@@ -168,8 +151,7 @@ def startBotOn(browser):
     if browser == ("Firefox" or "firefox"):
         try:
             from selenium.webdriver.firefox.options import Options
-            toFinish = "geckodriver"
-            print("Firefox Module Found")
+            print("Firefox Module Found!")
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Firefox Not Found")
             print(err)
@@ -181,8 +163,8 @@ def startBotOn(browser):
         driver = webdriver.Firefox(
             executable_path='{}\\drivers\\geckodriver.exe'.format(dir_path), options=options)
 
-def startBot():
-    if (UIenable):
+def startBot(UI = True):
+    if (UI):
         getJsConfig()
         getPytConfig()
         setupConfig(setJsConfig)
@@ -194,10 +176,8 @@ def startBot():
         driver.execute_script(bot.read())
     else:
         startBotOn(selectedBrowser)
-        bot = open(r"{}\config\config.js".format(dir_path),
+        bot = open(r"{}\config\WOUI\config.js".format(dir_path),
                 "r", encoding="utf8")
         driver.get(manualURL)
         driver.execute_script(bot.read())
-    
-def stopDriver():   
-    system("TASKKILL /IM {}.exe".format(toFinish))
+
