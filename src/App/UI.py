@@ -82,7 +82,6 @@ def startBot():
      main.startFromUI()
 
 def runUI():
-    print(dir_path)
     eel.init('{}\\App\\web'.format(dir_path), allowed_extensions=['.js', '.html'])
     browsers.set_path("chromium", r"{}\chrome-win\chrome.exe".format(dir_path))
     eel.start('index.html', mode="chromium", cmdline_args=['--disable-extensions', '--test-type=gpu'])
