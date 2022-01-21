@@ -43,7 +43,7 @@ elif __file__:
 selectedBrowser = "Edge"
 
 # Here you can add the target, do not forget the area code +00
-manualPhone = "+0000000000"
+manualPhone = "+0000000001"
 
 # Url of whatsapp, do not change ir unless it is necesary
 manualURL = "https://web.whatsapp.com/send?phone={}".format(manualPhone)
