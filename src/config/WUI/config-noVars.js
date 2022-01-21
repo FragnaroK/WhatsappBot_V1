@@ -268,7 +268,7 @@ function answerMsg(message) {
   }
   if (!exist && msg.slice(0, keyWord.length).includes(keyWord)) {
     setTimeout(() => {
-      writeAndSendMsg("Sorry, try another question :(");
+      writeAndSendMsg("Perdon Amorcito, no entendi la respuesta TE AMO <3");
     }, 3000);
   }
 }
