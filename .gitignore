@@ -2,8 +2,7 @@ build
 dist
 __pycache__
 *.pyc
-botConfig.json
-userConfig.json
 *.spec
-*.pyc
-*.code-workspace
+build.bat
+wpbot_horizontal.code-workspace
+wpbot_vertical.code-workspace
