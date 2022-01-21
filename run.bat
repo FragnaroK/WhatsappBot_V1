@@ -1,1 +1,0 @@
-C:/Users/User/AppData/Local/Microsoft/WindowsApps/python3.9.exe main.py
