@@ -1,9 +1,9 @@
-/build
-/dist
-/__pycache__
+build
+dist
+__pycache__
 *.pyc
-config/botConfig.json
-config/userConfig.json
+botConfig.json
+userConfig.json
 *.spec
 *.pyc
 *.code-workspace
