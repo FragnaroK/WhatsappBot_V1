@@ -4,7 +4,7 @@
 > ***
 > ***21/01/2022*** [ ! ] UPDATE [ ! ]
 > * README.md updated! Finally...
-> * UI works with chromium included, so you don't need to install chrome
+> * UI works with chromium included, so you don't need to install chrome, but you will have to unzip the file "chrome-win.rar". 
 > * It throw an error when you click on "Load Data" but if you click several times it should work well
 > * With UI mode, it will minify the js code
 > * Config files divided in two folders: 
@@ -59,7 +59,9 @@ Once you have downloaded them, copy them into the "drivers" folder.
 > ./src/drivers
 
 ## Usage
-
+***
+**FIRST UNZIP "chrome-win.rar"**
+***
 This bot can be used in two ways:
 
 1. [With User Interface (Recommended)](#with-user-interface)
