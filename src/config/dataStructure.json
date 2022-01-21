@@ -1,0 +1,66 @@
+{
+    "botConfig.json": {
+        "browser": "Chrome",
+        "phone": "+61404558115"
+    },
+    
+    "userConfig.json": {
+        "modes": {
+            "random": true,
+            "scheduled": true,
+            "auto": true
+        },
+        "randomPhrases": [
+            "Random 1",
+            "Random 2",
+            "Random 3"
+        ],
+        "scheduledPhrases": [
+            {
+                "phrase": "Scheduled 1",
+                "time": "1"
+            },
+            {
+                "phrase": "Scheduled 2",
+                "time": "13"
+            },
+            {
+                "phrase": "Scheduled 3",
+                "time": "18"
+            }
+        ],
+        "autoMessages": [
+            {
+                "ask": "Chat 1",
+                "answers": [
+                    "A1",
+                    "A2",
+                    "A3"
+                ]
+            },
+            {
+                "ask": "Chat 2",
+                "answers": [
+                    "A1",
+                    "A2",
+                    "A3"
+                ]
+            },
+            {
+                "ask": "Chat 3",
+                "answers": [
+                    "A1",
+                    "A2",
+                    "A3"
+                ]
+            }
+        ],
+        "keyWord": "hey, ",
+        "times": [
+            "1",
+            "13",
+            "18"
+        ],
+        "every": 300000
+    }
+}
