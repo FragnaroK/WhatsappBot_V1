@@ -176,7 +176,7 @@ function startAI() {
 function getLastMsg(output) {
   let e = output.target;
   if (e == list_container.lastElementChild) {
-    if (e.classList.toString().includes("message-out focusable-list-item")) {
+    if (e.classList.toString().includes("message-in focusable-list-item")) {
       lastMsg = e.innerText.slice(0, e.innerText.lastIndexOf("\n"));
       answerMsg(lastMsg);
     }
