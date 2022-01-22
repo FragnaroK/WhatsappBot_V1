@@ -3,6 +3,7 @@ import sys
 import json
 from os import path
 from pathlib import Path
+import App.models.art as art
 from time import sleep as wait
 import eel.browsers as browsers
 from types import SimpleNamespace
@@ -90,6 +91,8 @@ def startBot():
      main.startFromUI()
 
 def runUI():
+    print(art.welcoming())
+    wait(3) # Just to see this awesome title
     eel.init('{}\\App\\web'.format(dir_path), allowed_extensions=['.js', '.html'])
     browsers.set_path("chromium", r"{}\chrome-win\chrome.exe".format(dir_path))
     eel.start('index.html', mode="chromium", cmdline_args=['--disable-extensions', '--test-type=gpu'])

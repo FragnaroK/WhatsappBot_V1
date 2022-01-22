@@ -18,13 +18,13 @@
 
 import sys
 import json
+import App.models.art as art
 from pathlib import Path
 from os import getlogin, path
 from selenium import webdriver
-from types import SimpleNamespace
 from time import sleep as wait
+from types import SimpleNamespace
 from App.models.userconfig import botConfig, dataStatusMessage
-
 
 # Change the name of the browser that you want to run this bot
 # Available browsers:
@@ -218,6 +218,8 @@ def startBot(UI = True):
         driver.get(url)
         driver.execute_script(bot.read())
     else:
+        print(art.welcoming)
+        wait(3)
         startBotOn(selectedBrowser)
         bot = open(r"{}\config\WOUI\config.js".format(dir_path),
                 "r", encoding="utf8")

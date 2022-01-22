@@ -6,3 +6,4 @@ __pycache__
 build.bat
 wpbot_horizontal.code-workspace
 wpbot_vertical.code-workspace
+src/bot.js

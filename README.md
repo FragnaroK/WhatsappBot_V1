@@ -10,6 +10,7 @@
 > * Config files divided in two folders: 
 >	- WUI: With UI
 >	- WOUI: Without UI
+> * I will comment the whole code soon...
 > *** 
 
 ## Indexs
