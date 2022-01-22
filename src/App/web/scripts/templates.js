@@ -30,7 +30,7 @@ const home = () => `
             </div>
             <div class="form">
               <label for="Phone">Every</label>
-              <input type="number" placeholder="Send Every... (Minutes)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every}"/>
+              <input type="number" placeholder="Send Every... (Minutes)" onkeyup="writing(this)" name="every" id="Every" value="${jsConfig.every / 60000}"/>
             </div>
           </section>
           <section class="modes">
@@ -38,7 +38,7 @@ const home = () => `
             <div class="modes__random">
               <button
                 class="modes__random--toggle toggleBtn ${
-                  jsConfig.modes.scheduled ? "btnOn" : ""
+                  jsConfig.modes.random ? "btnOn" : ""
                 }"
                 onclick="modeToggle('random')"
               >
