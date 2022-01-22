@@ -72,6 +72,7 @@ The UI is enabled by default, but if you want to change it just change the value
 ***
 ### With User Interface
 
+Run main.exe
 
 This UI is very simple and it doesn't require a complex explanation, if you have any doubt/issue or may be ideas to improve it, do not hesitate to send me an email or report it.
 
