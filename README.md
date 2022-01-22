@@ -46,7 +46,7 @@ After having a lot of headaches with bots from other developers, I realized that
 For now, this bot is compatible with the following browsers:
 
 - Google Chrome
-- Microsoft Edge (Recommended)
+- Microsoft Edge
 - Mozilla Firefox
 
 You may need to download the drivers corresponding to your browser version.
