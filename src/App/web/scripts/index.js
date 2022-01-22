@@ -63,9 +63,9 @@ var autoMessages = [];
 var newAutoMessages = [];
 
 function asignarJsConfig(obj) {
-  jsConfig.modes.random = obj.modes[0];
-  jsConfig.modes.scheduled = obj.modes[1];
-  jsConfig.modes.auto = obj.modes[2];
+  jsConfig.modes.random = obj.modes.random;
+  jsConfig.modes.scheduled = obj.modes.scheduled;
+  jsConfig.modes.auto = obj.modes.auto;
   jsConfig.randomPhrases = [...obj.randomPhrases];
   jsConfig.scheduledPhrases = [...obj.scheduledPhrases];
   jsConfig.autoMessages = [...obj.autoMessages];
@@ -101,8 +101,10 @@ function getSavedData(jsData, pyData) {
 
 function checkLocalData(loadData = false) {
   console.log("Loading Data...")
-  if (loadData) routes("home", document.getElementById("homeTab"), true);
   eel.checkSavedData();
+  setTimeout(() => {
+    if (loadData) routes("home", document.getElementById("homeTab"), true);
+  }, 1000);
 }
 
 function modeToggle(mode) {

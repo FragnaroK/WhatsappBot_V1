@@ -16,14 +16,14 @@
 # Github profile: https://github.com/FragnaroK
 # Website:        https://fcanalejo.web.app
 
+import sys
 import json
 from pathlib import Path
-import sys
-from types import SimpleNamespace
-from selenium import webdriver
 from os import getlogin, path
-
-from App.models.userconfig import jsConfig, pyConfig
+from selenium import webdriver
+from types import SimpleNamespace
+from time import sleep as wait
+from App.models.userconfig import botConfig, dataStatusMessage
 
 
 # Change the name of the browser that you want to run this bot
@@ -60,7 +60,7 @@ def getJsConfig():
                 "r", encoding="utf8") as f:
         setJsConfigFile = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     global setJsConfig
-    setJsConfig = jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.keyWord, setJsConfigFile.every, setJsConfigFile.times) 
+    setJsConfig = botConfig.jsConfig(setJsConfigFile.modes, setJsConfigFile.randomPhrases, setJsConfigFile.scheduledPhrases, setJsConfigFile.autoMessages, setJsConfigFile.keyWord, setJsConfigFile.every, setJsConfigFile.times) 
     f.close()
     
 def getPytConfig():
@@ -68,7 +68,7 @@ def getPytConfig():
                 "r", encoding="utf8") as f:
         pythonConfigFile = json.load(f, object_hook=lambda d: SimpleNamespace(**d))
     global setPyConfig
-    setPyConfig = pyConfig(pythonConfigFile.browser,pythonConfigFile.phone)
+    setPyConfig = botConfig.pyConfig(pythonConfigFile.browser,pythonConfigFile.phone)
     f.close()
 
 
@@ -77,20 +77,56 @@ def clearBotConfig():
                "w", encoding="utf8")
     bot.close()
 
-
+def getArray(data, t):
+    global aux
+    aux = ""
+    if t == "scheduled":
+        i = 0
+        for msg in data:
+            if i == 0:
+                aux = aux.__add__("[")
+            aux = aux.__add__("{ phrase: '" + msg.phrase + "', time: " + str(msg.time) + " }")
+            if i == (len(data) - 1):
+                aux = aux.__add__("]")
+            else:
+                aux = aux.__add__(",")
+            i = i + 1
+        return str(aux)
+    
+    if t == "auto":
+        i = 0
+        for msg in data:
+            if i == 0:
+                aux = aux.__add__("[")    
+            aux = aux.__add__("{ ask: '"+ msg.ask +"', answers: [")
+            j = 0
+            for ans in msg.answers:
+                if j == (len(msg.answers) - 1):
+                    aux = aux.__add__("'" + ans + "']")
+                else:
+                    aux = aux.__add__( "'" + ans + "',")
+                j = j + 1
+            if i == (len(data) - 1):
+                aux = aux.__add__("}]")
+            else:
+                aux = aux.__add__("},")       
+            i = i + 1
+        return str(aux)   
+    
 def setupConfig(Config):
     try:
         from css_html_js_minify import process_single_js_file
-        print("Starting JS Compressor!\n")
+        print("\n\tStarting JS Compressor!\n")
+        wait(1)
     except ModuleNotFoundError or ImportError as err:
         print("[!] ERROR: JavaScript Minify Module Not Found!")
         print(err)
     process_single_js_file(r"{}\config\WUI\config-noVars.js".format(dir_path),overwrite=False, output_path=r"{}\config\WUI\min-config.js".format(dir_path))
-    print("Minify Completed!\n\n")
-    schePhra = str(Config.scheduledPhrases).replace("namespace(" , "{")
-    schePhra = schePhra.replace(")", "}")
-    autoMsg = str(Config.autoMessages).replace("namespace(" , "{")
-    autoMsg = autoMsg.replace(")", "}")
+    print("\n\tMinify Completed!\n\n")
+    print("\nAdding saved data into BOT...\n\n")
+    wait(2)
+    schePhra = getArray(Config.scheduledPhrases, "scheduled")
+    autoPhra = getArray(Config.autoMessages, "auto")
     clearBotConfig()
     # Bot logic
     config = open(r"{}\config\WUI\min-config.js".format(dir_path),
@@ -99,20 +135,21 @@ def setupConfig(Config):
     # Only change it if the name of the javascript file change, or path
     bot = open(r"{}\bot.js".format(dir_path),
                "a+", encoding="utf8")
-    bot.write("const onlyScheduled={};".format(str(Config.modes[1]).casefold()))
-    bot.write("const onlyRandom={};".format(str(Config.modes[0]).casefold()))
-    bot.write("const autoMode={};".format(str(Config.modes[2]).casefold()))
+    bot.write("const onlyScheduled={};".format(str(Config.modes.scheduled).casefold()))
+    bot.write("const onlyRandom={};".format(str(Config.modes.random).casefold()))
+    bot.write("const autoMode={};".format(str(Config.modes.auto).casefold()))
     bot.write("const everyS={};".format(Config.every))
     bot.write("const scheTime={};".format(Config.times))
     bot.write("const phrases={};".format(Config.randomPhrases))
-    bot.write("const schePhrases={};".format(schePhra.replace("=", ":")))
-    bot.write("const chats={};".format(autoMsg.replace("=", ":")))
+    bot.write("const schePhrases={};".format(schePhra))
+    bot.write("const chats={};".format(autoPhra))
     bot.write('const keyWord="{}";'.format(Config.keyWord))
     
     for line in config:
         bot.write(line)
     config.close()
     bot.close()
+    print("\n\t Saved data added into BOT!\n\n")
 
 
 def startBotOn(browser):
@@ -122,6 +159,7 @@ def startBotOn(browser):
         try:
             from selenium.webdriver.chrome.options import Options
             print("Chrome Module Found!")
+            wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Chrome Not Found")
             print(err)
@@ -137,6 +175,7 @@ def startBotOn(browser):
         try:
             from selenium.webdriver.edge.options import Options
             print("Edge Module Found!")
+            wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR:  Selenium WebDriver Edge Not Found")
             print(err)
@@ -152,6 +191,7 @@ def startBotOn(browser):
         try:
             from selenium.webdriver.firefox.options import Options
             print("Firefox Module Found!")
+            wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Firefox Not Found")
             print(err)
@@ -169,6 +209,9 @@ def startBot(UI = True):
         getPytConfig()
         setupConfig(setJsConfig)
         startBotOn(setPyConfig.browser)
+        print("\n Data Loaded Into the Bot:\n")
+        dataStatusMessage(setPyConfig, setJsConfig)
+        wait(3)
         url = "https://web.whatsapp.com/send?phone={}".format(setPyConfig.phone)
         bot = open(r"{}\bot.js".format(dir_path),
                 "r", encoding="utf8")

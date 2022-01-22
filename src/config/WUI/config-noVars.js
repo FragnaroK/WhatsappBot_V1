@@ -189,7 +189,7 @@ var lastMsgSent = undefined;
 function answerMsg(message) {
   let msg = message.toString().toLowerCase();
   let exist = false;
-  if (msg.slice(0, 5).includes(keyWord)) {
+  if (msg.slice(0, (keyWord.length - 1)).includes(keyWord)) {
     chats.forEach((chat, i) => {
       if (msg.includes(chat.ask.toLowerCase())) {
         setTimeout(() => {
@@ -212,7 +212,7 @@ function answerMsg(message) {
       } 
     });
   }
-  if (!exist && msg.slice(0, 5).includes(keyWord)) {
+  if (!exist && msg.slice(0, (keyWord.length - 1)).includes(keyWord)) {
     setTimeout(() => {
       writeAndSendMsg("Sorry, try another question :(");
     }, 3000);

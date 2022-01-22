@@ -1,7 +1,7 @@
 window.onload = () => {
-  let initialTab = "home"
-  routes(initialTab, document.getElementById(`${initialTab}Tab`));
-  
+  // let initialTab = "home"
+  // routes(initialTab, document.getElementById(`${initialTab}Tab`));
+  checkLocalData(true)
 };
 
 var currentTab = ""
