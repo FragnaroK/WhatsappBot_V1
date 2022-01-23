@@ -11,6 +11,7 @@
 >	- WUI: With UI
 >	- WOUI: Without UI
 > * I will comment the whole code soon...
+> * Added "Save Data" button
 > *** 
 
 ## Indexs
@@ -45,6 +46,7 @@ After having a lot of headaches with bots from other developers, I realized that
 
 For now, this bot is compatible with the following browsers:
 
+- Chromium (recommended)
 - Google Chrome
 - Microsoft Edge
 - Mozilla Firefox
@@ -52,6 +54,7 @@ For now, this bot is compatible with the following browsers:
 You may need to download the drivers corresponding to your browser version.
 
 - [Chrome Drivers](https://chromedriver.chromium.org/downloads)
+	> Chromium needs Chrome Drivers, but it should be already installed with the same version of the chromium in "chrome-win.rar"
 - [Edge Drivers](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/)
 - [Firefox Drivers](https://github.com/mozilla/geckodriver)
 
@@ -77,7 +80,14 @@ Run main.exe
 
 This UI is very simple and it doesn't require a complex explanation, if you have any doubt/issue or may be ideas to improve it, do not hesitate to send me an email or report it.
 
-> The UI will start with default data just as example, to load your saved data just click on `Load Data`.
+When you start "main.exe" it should open three two windows:
+ 
+ - A console (it should show an awesome presentation).
+ - The UI window (after 2s it should load the saved data if exists).
+	- Once you click on "Start Bot", it should open a new window with whatsapp web (sometimes it takes a few seconds) and then it will inject the bot code.
+	- When you Log In with your account, the bot will detect the input of the chat and start the program.
+
+> The UI will start with default data just as example, to load your saved data just click on `Load Data`. Just make sure to put your custom data into ./src/config
 
 _Home Tab_
 ![Home Tab](./images/WPP_BOT--home.jpeg)

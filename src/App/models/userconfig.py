@@ -1,35 +1,5 @@
 import json
 from xmlrpc.client import Boolean
-from time import sleep as wait
-
-def dataStatusMessage(a, b):
-    print("""\n
-                General     [botConfig.json]
-            __________________________________
-           |                                 
-           |  Browser: {}                    
-           |  Phone  : {}                    
-           |_________________________________
-            
-                Bot         [userConfig.json]
-            __________________________________
-           |                                 
-           |  Random Mode Status   : {}      
-           |  Scheduled Mode Status: {}      
-           |  Automatic Mode Status: {}      
-           |                                 
-           |  Keyword  (Auto Mode) : {}      
-           |  Every    ( Minutes ) : {}      
-           |  Scheduled Time (hour): {}      
-           -----------------------------------   
-              \n""".format(a.browser,
-                         a.phone,
-                         b.modes.random,
-                         b.modes.scheduled,
-                         b.modes.auto,
-                         b.keyWord,
-                         str(b.every /  60000),
-                         b.times))
 
 class modesObj:
     def __init__(self, random, scheduled, automatic):

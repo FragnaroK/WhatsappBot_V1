@@ -5,17 +5,17 @@ ECHO:
 ECHO:
 ECHO Deleting User Data . . . 
 ECHO ^|
-RMDIR /s chrome-win\AppData\"User Data"\"Profile 1"\Default && ECHO COMPLETED: Data Deleted || ECHO ERROR: Cannot Delete Data
+RMDIR /s chrome-win\AppData\"User Data"\"Profile 1"\Default && ECHO COMPLETED: Data Deleted || ECHO ERROR: Cannot Delete Data, may it does not exist
 ECHO:
 ECHO:
 ECHO Deleting Cache . . . 
 ECHO ^|
-RMDIR /s chrome-win\AppData\"User Data"\"Profile 1"\Cache && ECHO COMPLETED: Cache Deleted || ECHO ERROR: Cannot Delete Cache
+RMDIR /s chrome-win\AppData\"User Data"\"Profile 1"\Cache && ECHO COMPLETED: Cache Deleted || ECHO ERROR: Cannot Delete Cache, may it does not exist
 ECHO:
 ECHO:
 ECHO Deleting Local State . . . 
 ECHO ^|
-DEL chrome-win\AppData\"User Data"\"Profile 1"\"Local State" && ECHO COMPLETED: Local State Deleted || ECHO ERROR: Cannot Delete Local State
+DEL chrome-win\AppData\"User Data"\"Profile 1"\"Local State" && ECHO COMPLETED: Local State Deleted || ECHO ERROR: Cannot Delete Local State, may it does not exist
 ECHO:
 ECHO:
 ECHO:
