@@ -2,7 +2,7 @@ const content = document.getElementById("content");
 // HOME ROUTE
 
 var pyConfig = {
-  browser: "Edge",
+  browser: "Chromium",
   phone: "+141557897845",
 };
 
