@@ -40,7 +40,7 @@ elif __file__:
     application_path = Path(path.dirname(__file__)).parent.absolute()
     
 
-selectedBrowser = "Edge"
+selectedBrowser = "Chromium"
 
 # Here you can add the target, do not forget the area code +00
 manualPhone = "+0000000001"
@@ -152,13 +152,13 @@ def setupConfig(Config):
     print("\n\t Saved data added into BOT!\n\n")
 
 
-def startBotOn(browser):
+def startBotOn(browser, phone):
     
     global driver
     if browser == ("Chrome" or "chrome"):
         try:
             from selenium.webdriver.chrome.options import Options
-            print("Chrome Module Found!")
+            print("[+] FOUND: Chrome Module")
             wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Chrome Not Found")
@@ -168,13 +168,19 @@ def startBotOn(browser):
         options.add_argument(
             "--user-data-dir=C:\\Users\\{}\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 2".format(user))
         options.add_argument("--disable-extensions")
-        driver = webdriver.Chrome(
-            executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options)
+        options.add_argument("--new-windoww")
+        options.add_argument("--app=https://web.whatsapp.com/send?phone={}".format(phone))
+        if path.isfile(r"{}drivers\chromedriver.exe".format(dir_path)):
+            print("[+] FOUND: Chrome Driver (chromedriver.exe)")
+            driver = webdriver.Chrome(
+                executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options)
+        else:
+            print("[!] ERROR: Chrome Driver NOT Found. (Check 'src/drivers/geckodriver.exe')")
 
     if browser == ("Edge" or "edge"):
         try:
             from selenium.webdriver.edge.options import Options
-            print("Edge Module Found!")
+            print("[+] FOUND: Edge Module")
             wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR:  Selenium WebDriver Edge Not Found")
@@ -184,13 +190,17 @@ def startBotOn(browser):
             "--user-data-dir=C:\\Users\\{}\\AppData\\Local\\MicrosoftEdge\\User\\Default".format(
                 user)
         )
-        driver = webdriver.Edge(
-            executable_path='{}\\drivers\\msedgedriver.exe'.format(dir_path), options=options)
+        if path.isfile(r"{}drivers\msedgedriver.exe".format(dir_path)):
+            print("[+] FOUND: Edge Driver (msedgedriver.exe)")
+            driver = webdriver.Edge(
+                executable_path='{}\\drivers\\msedgedriver.exe'.format(dir_path), options=options)
+        else:
+            print("[!] ERROR: Edge Driver NOT Found. (Check 'src/drivers/geckodriver.exe')")
 
     if browser == ("Firefox" or "firefox"):
         try:
             from selenium.webdriver.firefox.options import Options
-            print("Firefox Module Found!")
+            print("[+] FOUND: Firefox Module")
             wait(1)
         except ModuleNotFoundError or ImportError as err:
             print("[!] ERROR: Selenium WebDriver Firefox Not Found")
@@ -200,22 +210,65 @@ def startBotOn(browser):
             "--user-data-dir=C:\\Users\\{}\\AppData\\Local\\Mozilla\\Profiles\\2ql2x3dk.default-release".format(
                 user)
         )
-        driver = webdriver.Firefox(
-            executable_path='{}\\drivers\\geckodriver.exe'.format(dir_path), options=options)
+        if path.isfile(r"{}drivers\geckodriver.exe".format(dir_path)): 
+            print("[+] FOUND: Firefox Driver (geckodriver.exe)")
+            driver = webdriver.Firefox(
+                executable_path='{}\\drivers\\geckodriver.exe'.format(dir_path), options=options)
+        else:
+            print("[!] ERROR: Firefox Driver NOT Found. (Check 'src/drivers/geckodriver.exe')")
+            
+    if browser == ("Chromium" or "chromium"):
+        try:
+            from selenium.webdriver.chrome.options import Options
+            print("[+] FOUND: Chromium Module")
+            wait(1)
+        except ModuleNotFoundError or ImportError as err:
+            print("[!] ERROR: Selenium WebDriver Chromium (Chrome) Not Found")
+            print(err)
+
+        chromium_path = r"{}\chrome-win\chrome.exe".format(dir_path)
+        
+        options = Options()
+        options.add_argument(
+            "--user-data-dir={}\\chrome-win\\AppData\\User Data\\Profile 1".format(dir_path))
+        options.add_argument("--disable-extensions")
+        options.add_argument("--new-windoww")
+        options.add_argument("--app=https://web.whatsapp.com/send?phone={}".format(phone))
+        
+        if path.isfile(r"{}\chrome-win\chrome.exe".format(dir_path)):
+            print("[+] FOUND: Chromium executable at => '{}'".format(chromium_path))
+            wait(0.5)
+            options.binary_location = chromium_path
+            options.add_argument("--disable-extensions")
+            if path.isfile(r"{}\drivers\chromedriver.exe".format(dir_path)):
+                print("[+] FOUND: Chromium Driver (chromedriver.exe)")
+                wait(0.5)
+                driver = webdriver.Chrome(
+                    executable_path='{}\\drivers\\chromedriver.exe'.format(dir_path), options=options)
+            else:
+                print("\n[!] ERROR: Chrome Driver NOT Found. (Check 'src/drivers/chromedriver.exe')")
+                wait(2)
+        else:
+            print("[!] NOT FOUND: Chromium executable (Do not forget to unzip 'chrome-win.rar', then check if 'chrome-win' folder exists and it has 'chrome.exe')")
+            print("\n\nTrying to start with Edge...\n\n")
+            wait(2)
+            startBotOn("Edge")
 
 def startBot(UI = True):
     if (UI):
         getJsConfig()
         getPytConfig()
         setupConfig(setJsConfig)
-        startBotOn(setPyConfig.browser)
+        startBotOn(setPyConfig.browser, setPyConfig.phone)
         print("\n Data Loaded Into the Bot:\n")
         dataStatusMessage(setPyConfig, setJsConfig)
         wait(3)
         url = "https://web.whatsapp.com/send?phone={}".format(setPyConfig.phone)
         bot = open(r"{}\bot.js".format(dir_path),
                 "r", encoding="utf8")
-        driver.get(url)
+        if setPyConfig.browser != ("Chrome" and "chrome" and "Chromium" and "chromium"):
+            driver.get(url)
+            
         driver.execute_script(bot.read())
     else:
         startBotOn(selectedBrowser)
