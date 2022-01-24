@@ -44,6 +44,13 @@ After having a lot of headaches with bots from other developers, I realized that
 
 **_Only Available on Windows_**
 
+> | ✔️ = It works | ❗ = To be tested | ✖️ = It doesn't work |
+
+- Windows 11 ❗
+- Windows 10 ✔️
+- Windows 8 ❗
+- Windows 7 ✖️
+
 For now, this bot is compatible with the following browsers:
 
 - Chromium (recommended)
