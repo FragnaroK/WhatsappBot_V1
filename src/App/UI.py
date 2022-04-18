@@ -92,7 +92,8 @@ def runUI():
     print(art.welcoming())
     wait(3) # Just to see this awesome title
     eel.init('{}\\App\\web'.format(dir_path), allowed_extensions=['.js', '.html'])
-    browsers.set_path("chromium", r"{}\chrome-win\chrome.exe".format(dir_path))
-    eel.start('index.html', mode="chromium", cmdline_args=['--disable-extensions', '--test-type=gpu'])
+    browsers.set_path("chromium", r"{}\chrom\chrome.exe".format(dir_path))
+    print(browsers.get_path("chromium"))
+    eel.start('index.html', mode="chromium", cmdline_args=['--disable-extensions', '--test-type=gpu', '--incognito', '--disable-gpu-compositing', '--disable-features=TranslateUI','fast-start', '--fast', '--no-sandbox'])
 
     

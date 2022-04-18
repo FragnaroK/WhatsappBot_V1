@@ -120,10 +120,10 @@ def setupConfig(Config):
         from css_html_js_minify import process_single_js_file
         aPrint("info", "Starting JS Compressor!")
         wait(1)
+        process_single_js_file(r"{}\config\WUI\config-noVars.js".format(dir_path),overwrite=False, output_path=r"{}\config\WUI\min-config.js".format(dir_path))
     except ModuleNotFoundError or ImportError as err:
         aPrint("error", "JavaScript Minify Module Not Found!", [pyPath, "setupConfig()"])
         print(err)
-    process_single_js_file(r"{}\config\WUI\config-noVars.js".format(dir_path),overwrite=False, output_path=r"{}\config\WUI\min-config.js".format(dir_path))
     aPrint("update", "Minify Completed!")
     aPrint("info", "Adding saved data into BOT...")
     wait(2)
@@ -227,16 +227,16 @@ def startBotOn(browser, phone):
             aPrint("error", "Selenium WebDriver Chromium (Chrome) Not Found", [pyPath, "startBotOn()"])
             print(err)
 
-        chromium_path = r"{}\chrome-win\chrome.exe".format(dir_path)
+        chromium_path = r"{}\chrom\chrome.exe".format(dir_path)
         
         options = Options()
         options.add_argument(
-            "--user-data-dir={}\\chrome-win\\AppData\\User Data\\Profile 1".format(dir_path))
+            "--user-data-dir={}\\chrom\\AppData\\User Data\\Profile 1".format(dir_path))
         options.add_argument("--disable-extensions")
         options.add_argument("--new-windoww")
         options.add_argument("--app=https://web.whatsapp.com/send?phone={}".format(phone))
         
-        if path.isfile(r"{}\chrome-win\chrome.exe".format(dir_path)):
+        if path.isfile(r"{}\chrom\chrome.exe".format(dir_path)):
             aPrint("info", "FOUND: Chromium executable at => '{}'".format(chromium_path))
             wait(0.5)
             options.binary_location = chromium_path

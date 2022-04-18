@@ -3,7 +3,7 @@ ECHO Building Python App
 ECHO . . . . . . . . . . . . .
 ECHO: 
 @REM Change the below line with your python address or alias
-python -m eel main.py App\web --onefile
+C:/Users/User/AppData/Local/Programs/Python/Python310/python.exe -m eel main.py App\web --onefile
 ECHO:
 ECHO:
 IF EXIST main.exe ( DEL main.exe ); 
