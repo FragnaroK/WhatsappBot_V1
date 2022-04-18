@@ -70,6 +70,7 @@ allSaved = ""
 def saveData(data, filename):
     with open(r'{}\config\{}.json'.format(dir_path, filename), 'w', encoding='utf-8') as f:
         json.dump(data, f, cls=configEncoder, ensure_ascii=False)
+        f.close()
     aPrint("update", filename + ".json Saved!")
     allSaved = filename
     if allSaved == ("userConfig" or "botConfig"):

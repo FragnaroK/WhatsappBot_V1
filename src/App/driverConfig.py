@@ -133,7 +133,6 @@ def setupConfig(Config):
     # Bot logic
     config = open(r"{}\config\WUI\min-config.js".format(dir_path),
                   "r", encoding="utf8")
-
     # Only change it if the name of the javascript file change, or path
     bot = open(r"{}\bot.js".format(dir_path),
                "a+", encoding="utf8")
